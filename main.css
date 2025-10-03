@@ -111,6 +111,12 @@
             font-size: 1.1em;
             margin-bottom: 15px;
         }
+       .product-gallery{
+         display: grid;
+         grid-template-columns: repeat(2, 180px); /* 2 ảnh mỗi hàng */
+         gap: 15px;                                /* khoảng cách giữa ảnh */
+         justify-content: center;                  /* canh giữa cả lưới */
+       }
 
         .product-image {
             width: 180px;
