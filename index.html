@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カタログギフト比較</title>
+    <link rel="stylesheet" href="main.css">
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎁 カタログギフト比較</h1>
+            <p class="subtitle">最適なギフトカタログを見つけよう</p>
+        </header>
+
+        <div class="intro">
+            <p>カタログギフトの価格、特徴、内容を簡単に比較できます。大切な方への贈り物に最適なカタログをお選びください。</p>
+        </div>
+
+       
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">商品</th>
+                        <th style="width: 70%;">詳細情報</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <!-- SẢN PHẨM MẪU - Bạn có thể xóa hoặc chỉnh sửa -->
+                    <tr>
+                        <td class="product-cell">
+                            <div class="product-name">シャディ アズユーライク 洋風タイプ</div>
+                            <img src="https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400" alt="Catalog Gift" class="product-image">
+                            <div class="button-group">
+                                <a href="#" class="cta-button">パンフレットを見る</a>
+                                <a href="#" class="cta-button secondary">お買い物・詳細ページへ</a>
+                                <a href="#" class="cta-button tertiary">買い物の一部紹介</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="spec-table">
+                                <div class="spec-row">
+                                    <div class="spec-label">コース数</div>
+                                    <div class="spec-value"><span class="price-highlight">14コース</span><br>3080円〜11088円</div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">アイテム数</div>
+                                    <div class="spec-value">
+                                        <span class="star-rating">★★★★★</span>
+                                        <span style="margin-left: 10px;">最大572ページ・3183点</span>
+                                    </div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">グルメ数</div>
+                                    <div class="spec-value">
+                                        <span class="star-rating">★★★★<span class="star-empty">★</span></span>
+                                        <span style="margin-left: 10px;">最大179点</span>
+                                    </div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">即納対応</div>
+                                    <div class="spec-value">-</div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">配送便</div>
+                                    <div class="spec-value">宅配便</div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">送料</div>
+                                    <div class="spec-value"><strong>全品無料</strong></div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">キャンペーン</div>
+                                    <div class="spec-value">
+                                        <span class="campaign-text">大口購入(33,000円以上)プレゼント</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- ============================================ -->
+                    <!-- THÊM SẢN PHẨM MỚI TẠI ĐÂY                   -->
+                    <!-- ============================================ -->
+                    <!-- 
+                    HƯỚNG DẪN: Copy toàn bộ đoạn code từ <tr> đến </tr> bên dưới,
+                    sau đó thay đổi các thông tin sau:
+
+                    1. TÊN SẢN PHẨM - đổi text trong <div class="product-name">
+                    2. URL_HÌNH_ẢNH - đổi link trong src="..."
+                    3. LINK_NÚT_BẤM - đổi # trong href="#" thành link thật
+                    4. SỐ KHÓA HỌC - đổi "14コース" và giá "3080円〜11088円"
+                    5. SỐ SAO - thay đổi số lượng ★ (từ 1 đến 5 sao)
+                    6. SỐ ITEMS - đổi "最大572ページ・3183点"
+                    7. GOURMET - đổi "最大179点"
+                    8. GIAO NHANH - đổi "-" thành "対応" hoặc giữ nguyên
+                    9. VẬN CHUYỂN - đổi "宅配便" nếu cần
+                    10. PHÍ SHIP - đổi "全品無料" nếu cần
+                    11. KHUYẾN MÃI - đổi text trong campaign-text
+
+                    <tr>
+                        <td class="product-cell">
+                            <div class="product-name">TÊN SẢN PHẨM Ở ĐÂY</div>
+                            <img src="URL_HÌNH_ẢNH_Ở_ĐÂY" alt="Catalog Gift" class="product-image">
+                            <div class="button-group">
+                                <a href="LINK_CỦA_BẠN" class="cta-button">パンフレットを見る</a>
+                                <a href="LINK_CỦA_BẠN" class="cta-button secondary">お買い物・詳細ページへ</a>
+                                <a href="LINK_CỦA_BẠN" class="cta-button tertiary">買い物の一部紹介</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="spec-table">
+                                <div class="spec-row">
+                                    <div class="spec-label">コース数</div>
+                                    <div class="spec-value"><span class="price-highlight">10コース</span><br>2500円〜8000円</div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">アイテム数</div>
+                                    <div class="spec-value">
+                                        <span class="star-rating">★★★★<span class="star-empty">★</span></span>
+                                        <span style="margin-left: 10px;">最大400ページ・2000点</span>
+                                    </div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">グルメ数</div>
+                                    <div class="spec-value">
+                                        <span class="star-rating">★★★<span class="star-empty">★★</span></span>
+                                        <span style="margin-left: 10px;">最大120点</span>
+                                    </div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">即納対応</div>
+                                    <div class="spec-value">対応</div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">配送便</div>
+                                    <div class="spec-value">宅配便</div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">送料</div>
+                                    <div class="spec-value"><strong>全品無料</strong></div>
+                                </div>
+                                <div class="spec-row">
+                                    <div class="spec-label">キャンペーン</div>
+                                    <div class="spec-value">
+                                        <span class="campaign-text">特典内容をここに記入</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    -->
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
