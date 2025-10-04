@@ -263,69 +263,87 @@
                 flex-direction: column;
             }
                /* ======= Home cards (boxed) ======= */
-                .home-grid{
+              home-grid {
                 padding: 32px 40px;
                 display: grid;
-                /* Mỗi card rộng 280–360px, tự căn giữa; khi có 1 card thì nó vẫn là một BOX gọn */
                 grid-template-columns: repeat(auto-fill, minmax(280px, 360px));
                 gap: 24px;
                 justify-content: center;
-                }
-
-                .nav-card{
-                background: #ffffff;
-                border: 2px solid rgba(102,126,234,0.25); /* viền nhìn rõ */
+              }
+              
+              .nav-card {
+                position: relative;
+                background: #fff;
                 border-radius: 16px;
-                box-shadow: 0 14px 36px rgba(102,126,234,0.25);
                 padding: 22px;
                 cursor: pointer;
-                transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
                 outline: none;
-                /* Nếu trang hiện tại chỉ có 1 card, ép max-width để nhìn đúng nghĩa “box” */
                 max-width: 560px;
-                }
-
-                .nav-card:hover,
-                .nav-card:focus-visible{
-                transform: translateY(-3px);
-                box-shadow: 0 20px 44px rgba(102,126,234,0.35);
-                border-color: rgba(102,126,234,0.45);
-                }
-
-                .nav-card h2{
-                color: #4a55c8;
-                font-size: 1.2rem;
-                margin-bottom: 8px;
-                }
-
-                .nav-card p{
-                color: #444;
-                line-height: 1.6;
-                margin-bottom: 10px;
-                }
-
-                .nav-card .nav-card-actions{ margin-top: 10px; }
-
-                .cta-like{
+                overflow: hidden;
+              
+                /* nền ảnh từ biến --bg */
+                background: var(--bg) center/cover no-repeat;
+                color: #fff;
+                border: 2px solid rgba(255,255,255,0.15);
+                box-shadow: 0 14px 36px rgba(0,0,0,0.25);
+              
+                /* transition mượt */
+                transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, filter .25s ease;
+              }
+              
+              /* overlay tối để chữ dễ đọc */
+              .nav-card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: rgba(0,0,0,0.45);
+                z-index: 0;
+              }
+              
+              .nav-card h2,
+              .nav-card p,
+              .nav-card .cta-like,
+              .nav-card-badge {
+                position: relative;
+                z-index: 1;
+              }
+              
+              /* badge */
+              .nav-card-badge {
+                position: absolute;
+                top: 12px; right: 12px;
+                background: #ffd166;
+                color: #6b4f00;
+                font-weight: 700;
+                font-size: .75rem;
+                padding: 4px 8px;
+                border-radius: 999px;
+                z-index: 2;
+              }
+              
+              /* hover & focus effect */
+              .nav-card:hover,
+              .nav-card:focus-visible {
+                transform: translateY(-6px) scale(1.02);
+                box-shadow: 0 20px 44px rgba(0,0,0,0.45);
+                border-color: rgba(255,255,255,0.5);
+                filter: brightness(1.1);
+              }
+              
+              /* bấm xuống (click effect) */
+              .nav-card:active {
+                transform: scale(0.98);
+                filter: brightness(0.9);
+              }
+              
+              /* CTA nút trong card */
+              .cta-like {
                 display: inline-block;
                 padding: 8px 14px;
                 border-radius: 999px;
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: #fff; font-weight: 600; font-size: .9rem;
+                font-weight: 600;
+                font-size: .9rem;
                 box-shadow: 0 4px 15px rgba(102,126,234,0.35);
-                }
-
-                .nav-card-badge{
-                position: absolute;
-                top: 12px; right: 12px;
-                background: #ffd166; color: #6b4f00;
-                font-weight: 700; font-size: .75rem;
-                padding: 4px 8px; border-radius: 999px;
-                }
-
-                /* Mobile tweak */
-                @media (max-width: 768px){
-                .home-grid{ padding: 20px; gap: 16px; }
-                .nav-card{ max-width: 100%; }
-                }
+              }
         }
