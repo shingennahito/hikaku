@@ -346,61 +346,67 @@
                 font-size: .9rem;
                 box-shadow: 0 4px 15px rgba(102,126,234,0.35);
               }
-               /* ===== MENU (image navigation) ===== */
-              .menu {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-                gap: 28px;
-                margin: 28px auto 0;
-                align-items: start;
-              }
-              
-              .menu-item {
-                text-decoration: none;
-                color: #1f2937; /* Slate-800 */
-              }
-              
-              .menu-item figure {
-                margin: 0;
-                display: grid;
-                gap: 10px;
-                justify-items: center;
-              }
-              
-              .menu-item img {
-                inline-size: 100%;
-                block-size: 150px;           /* chiều cao đồng nhất */
-                object-fit: cover;           /* cắt ảnh cho gọn */
-                border-radius: 14px;
-                box-shadow: 0 10px 22px rgba(0, 0, 0, .22);
-                transform: translateY(0) scale(1);
-                transition: transform .28s ease, box-shadow .28s ease, filter .28s ease;
-                will-change: transform, box-shadow, filter;
-              }
-              
-              .menu-item:hover img,
-              .menu-item:focus-visible img {
-                transform: translateY(-6px) scale(1.06);  /* “động lên” + phóng nhẹ */
-                box-shadow: 0 18px 36px rgba(0, 0, 0, .32);
-                filter: brightness(1.03) saturate(1.05);
-              }
-              
-              .menu-item figcaption {
-                font-weight: 700;
-                font-size: 1.05rem;
-                text-align: center;
-                background: rgba(255,255,255,.86);
-                padding: 6px 10px;
-                border-radius: 10px;
-                box-shadow: 0 3px 10px rgba(0,0,0,.08);
-              }
-              
-              /* Accessibility: cho phép tab focus đẹp */
-              .menu-item:focus-visible {
-                outline: none;
-              }
-              .menu-item:focus-visible img {
-                box-shadow: 0 0 0 3px #a78bfa, 0 18px 36px rgba(0,0,0,.32); /* purple-300 */
-              }
+              /* ===== CSS gọn trong 1 file để test ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg1:#6a78ff; --bg2:#7a4ac7; --panel:#fff; --text:#1f2937; }
+
+    body {
+      min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+        "Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, var(--bg1), var(--bg2));
+      color: var(--text);
+    }
+    .container { max-width: 1120px; margin: 24px auto 56px; padding: 0 20px; }
+
+    .site-hero {
+      background: linear-gradient(135deg,#8b5cf6,#6d28d9);
+      color:#fff; border-radius:18px; box-shadow:0 18px 40px rgba(0,0,0,.25);
+      padding: 32px 24px 20px;
+    }
+    .site-hero h1 { margin-bottom:6px; font-size: clamp(22px,3.6vw,40px); letter-spacing:.02em; }
+    .site-hero p { opacity:.9; }
+    .panel {
+      background: var(--panel); color: var(--text);
+      border-radius:18px; margin-top:14px; padding:16px 18px; font-size:.95rem;
+      box-shadow:0 12px 28px rgba(0,0,0,.18);
+    }
+
+    /* ===== MENU ===== */
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px;
+      margin: 28px auto 0;
+      align-items: start;
+    }
+    .menu-item { text-decoration: none; color: var(--text); }
+    .menu-item figure { margin:0; display:grid; gap:10px; justify-items:center; }
+
+    .menu-item img {
+      inline-size: 100%;
+      block-size: 150px;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+      transform: translateY(0) scale(1);
+      transition: transform .28s ease, box-shadow .28s ease, filter .28s ease;
+      will-change: transform, box-shadow, filter;
+      background: #f3f4f6; /* nền xám nhẹ nếu ảnh chưa tải xong */
+    }
+    .menu-item:hover img, .menu-item:focus-visible img {
+      transform: translateY(-6px) scale(1.06);
+      box-shadow: 0 18px 36px rgba(0,0,0,.32);
+      filter: brightness(1.05) saturate(1.05);
+    }
+    .menu-item figcaption {
+      font-weight:700; font-size:1.05rem; text-align:center;
+      background: rgba(255,255,255,.86);
+      padding:6px 10px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.08);
+    }
+    .menu-item:focus-visible { outline: none; }
+    .menu-item:focus-visible img {
+      box-shadow: 0 0 0 3px #a78bfa, 0 18px 36px rgba(0,0,0,.32);
+    }
 
         }
