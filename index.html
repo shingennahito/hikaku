@@ -1,39 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ホーム | ギフト比較ポータル</title>
-  <link rel="stylesheet" href="main.css">
-  <script src="app.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎁 ギフト比較ポータル</title>
+  <link rel="stylesheet" href="main.css" />
+  <style>
+    /* Một chút style cục bộ để header khớp ảnh bạn gửi; phần chính về menu ở main.css */
+    :root {
+      --bg1: #6a78ff;
+      --bg2: #7a4ac7;
+      --panel: #ffffff;
+    }
+    body {
+      min-height: 100dvh;
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Sans",
+        "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, var(--bg1), var(--bg2));
+    }
+    .container {
+      max-width: 1120px;
+      margin: 24px auto 56px;
+      padding: 0 20px;
+    }
+    header.site-hero {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      color: #fff;
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      padding: 32px 24px 20px;
+    }
+    header.site-hero h1 {
+      margin: 0 0 6px 0;
+      font-size: clamp(22px, 3.6vw, 40px);
+      letter-spacing: .02em;
+    }
+    header.site-hero p {
+      margin: 0;
+      opacity: .9;
+    }
+    .panel {
+      background: var(--panel);
+      border-radius: 18px;
+      margin-top: 14px;
+      padding: 16px 18px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.18);
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <header>
+    <header class="site-hero" role="banner">
       <h1>🎁 ギフト比較ポータル</h1>
-      <p class="subtitle">目的に合わせて、最適な比較ページへ</p>
+      <p>目的に合わせて、最適な比較ページへ</p>
+
+      <!-- Nhắc người dùng: giờ chuyển qua chọn ở menu -->
+      <div class="panel">
+        <p style="margin:0">下の<strong>メニュー画像</strong>をクリックすると、該当の比較ページへ移動します。</p>
+      </div>
     </header>
 
-    <div class="home-intro">
-      <p>下のカードをクリックすると、該当の比較ページへ移動します。</p>
-    </div>
+    <!-- MENU BẰNG HÌNH ẢNH -->
+    <nav class="menu" aria-label="比較メニュー">
+      <!-- ITEM 1 -->
+      <a href="compare.html" class="menu-item" aria-label="カタログギフト比較ページへ">
+        <figure>
+          <!-- Đặt ảnh thật trong /image; đổi tên file cho đúng -->
+          <img src="image/cataloggift.jpg" alt="カタログギフト比較" />
+          <figcaption>カタログギフト比較</figcaption>
+        </figure>
+      </a>
 
-    <div class="home-grid">
-      <div class="nav-card" data-href="compare.html" tabindex="0" role="button" aria-label="カタログギフト比較へ" style="--bg:url('image/cnr-rebody_s5_600x.jpg')">
-          <div class="nav-card-badge">おすすめ</div>
-          <h2>カタログギフト比較</h2>
-          <p>価格・コース・アイテム数などを一覧で比較。</p>
-          <div class="nav-card-actions">
-              <span class="cta-like">比較ページへ</span>
-          </div>
-       
-    </div>
-
-      </div>
-    </div>
+      <!-- Bạn có thể nhân bản khối dưới để thêm mục mới -->
+      <!--
+      <a href="another.html" class="menu-item" aria-label="別の比較ページへ">
+        <figure>
+          <img src="image/other.jpg" alt="別の比較" />
+          <figcaption>別の比較</figcaption>
+        </figure>
+      </a>
+      -->
+    </nav>
   </div>
+
+  <!-- Không cần JS cho hover; nếu muốn analytics hoặc lazyload nâng cao thì thêm sau -->
 </body>
 </html>
-
-
-
