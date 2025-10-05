@@ -1,412 +1,100 @@
+/* ========== Reset nhẹ & biến màu ========== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root{
+  --bg1:#6a78ff; --bg2:#7a4ac7;
+  --text:#1f2937; --white:#ffffff;
+  --shadow-1:0 10px 22px rgba(0,0,0,.22);
+  --shadow-2:0 18px 36px rgba(0,0,0,.32);
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ========== Nền & khung trang ========== */
+body{
+  min-height:100dvh;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,
+    "Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",sans-serif;
+  background: radial-gradient(1200px 600px at 50% -10%, var(--bg1), var(--bg2));
+  color:var(--text);
+}
+.container{ max-width:1120px; margin:24px auto 56px; padding:0 20px; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            min-height: 100vh;
-        }
+/* ========== Header ========== */
+.site-hero{
+  background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+  color:#fff;
+  border-radius:18px;
+  padding:28px 24px;
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
+}
+.site-hero h1{ font-size:clamp(22px,3.6vw,40px); letter-spacing:.02em; margin-bottom:6px; }
+.site-hero .subtitle{ opacity:.9; }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
+/* ========== MENU ẢNH NẰM NGANG (strip) ========== */
+/* Dải menu ngang: nhỏ gọn, không “ô trắng” bên dưới, label đè lên ảnh */
+.menu-row{
+  margin-top:18px;
+  display:flex;
+  gap:14px;
+  align-items:stretch;
+  justify-content:center;     /* có 1-2 mục thì sẽ cân giữa cho đỡ trống */
+  overflow-x:auto;            /* mobile kéo ngang nếu nhiều mục */
+  padding:8px 2px;
+  scroll-snap-type:x proximity;
+}
 
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
+/* Mỗi thẻ ảnh */
+.menu-card{
+  position:relative;
+  flex:0 0 clamp(220px, 26vw, 320px);  /* chiều rộng mỗi thẻ */
+  height:120px;                        /* CHÍNH: chiều cao dải – ảnh ngang */
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:var(--shadow-1);
+  transform:translateY(0) scale(1);
+  transition:transform .28s ease, box-shadow .28s ease, filter .28s ease;
+  text-decoration:none;
+  scroll-snap-align:start;
+}
 
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+/* Ảnh lấp đầy thẻ, không méo */
+.menu-card img{
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  display:block;
+  transition:transform .28s ease;
+}
 
-        .subtitle {
-            font-size: 1.2em;
-            opacity: 0.95;
-        }
+/* Lớp phủ nhẹ để chữ đọc được */
+.menu-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.0) 60%);
+  pointer-events:none;
+  transition:opacity .28s ease;
+  opacity:.75;
+}
 
-        .intro {
-            padding: 40px;
-            background: #f8f9fa;
-            text-align: center;
-            border-bottom: 3px solid #667eea;
-        }
+/* Nhãn đè lên ảnh */
+.menu-card .label{
+  position:absolute; left:10px; bottom:10px;
+  color:#fff; font-weight:700; font-size:0.98rem;
+  background:rgba(0,0,0,.55);
+  padding:6px 10px; border-radius:10px;
+  backdrop-filter: blur(1px);
+}
 
-        .intro p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-        }
+/* Hover: nổi lên nhẹ, ảnh phóng nhẹ */
+.menu-card:hover, .menu-card:focus-visible{ outline:none; transform:translateY(-6px) scale(1.03); box-shadow:var(--shadow-2); }
+.menu-card:hover img, .menu-card:focus-visible img{ transform:scale(1.06); }
+.menu-card:hover::after, .menu-card:focus-visible::after{ opacity:.6; }
 
-        .table-container {
-            padding: 40px;
-            overflow-x: auto;
-        }
+/* Ẩn scrollbar ngang (tùy trình duyệt) */
+.menu-row{ scrollbar-width:thin; }
+.menu-row::-webkit-scrollbar{ height:8px; }
+.menu-row::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.35); border-radius:999px; }
+.menu-row::-webkit-scrollbar-track{ background:transparent; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        th {
-            padding: 20px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 1.1em;
-            border-right: 1px solid rgba(255,255,255,0.3);
-        }
-
-        th:last-child {
-            border-right: none;
-        }
-
-        tbody tr {
-            border-bottom: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-
-        tbody tr:hover {
-            background: #f8f9ff;
-            transform: scale(1.01);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-        }
-
-        td {
-            padding: 20px;
-            vertical-align: top;
-        }
-
-        .product-cell {
-            text-align: center;
-        }
-
-        .product-name {
-            font-weight: 600;
-            color: #667eea;
-            font-size: 1.1em;
-            margin-bottom: 15px;
-        }
-       .product-gallery{
-         display: grid;
-         grid-template-columns: repeat(2, 180px); /* 2 ảnh mỗi hàng */
-         gap: 15px;                                /* khoảng cách giữa ảnh */
-         justify-content: center;                  /* canh giữa cả lưới */
-       }
-
-        .product-image {
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin: 0 auto 15px;
-            border: 3px solid #667eea;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: block;
-        }
-
-        .spec-table {
-            width: 100%;
-            background: #f8f9fa;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .spec-row {
-            display: flex;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .spec-row:last-child {
-            border-bottom: none;
-        }
-
-        .spec-label {
-            background: #e9ecef;
-            padding: 12px 15px;
-            font-weight: 600;
-            color: #495057;
-            width: 120px;
-            flex-shrink: 0;
-            border-right: 1px solid #dee2e6;
-        }
-
-        .spec-value {
-            padding: 12px 15px;
-            flex: 1;
-            color: #333;
-        }
-
-        .star-rating {
-            color: #ffc107;
-            font-size: 1.1em;
-            letter-spacing: 2px;
-        }
-
-        .star-empty {
-            color: #ddd;
-        }
-
-        .price-highlight {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #e74c3c;
-        }
-
-        .campaign-text {
-            color: #667eea;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-
-        .button-group {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            font-size: 0.9em;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        .cta-button.secondary {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .cta-button.tertiary {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .instruction-box {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 40px;
-        }
-
-        .instruction-box h3 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-
-        .instruction-box p {
-            color: #856404;
-            line-height: 1.6;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .table-container {
-                padding: 20px;
-            }
-
-            th, td {
-                padding: 12px;
-                font-size: 0.9em;
-            }
-
-            .product-image {
-                width: 120px;
-                height: 120px;
-            }
-
-            .spec-label {
-                width: 90px;
-                font-size: 0.85em;
-            }
-
-            .button-group {
-                flex-direction: column;
-            }
-               /* ======= Home cards (boxed) ======= */
-              home-grid {
-                padding: 32px 40px;
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(280px, 360px));
-                gap: 24px;
-                justify-content: center;
-              }
-              
-              .nav-card {
-                position: relative;
-                background: #fff;
-                border-radius: 16px;
-                padding: 22px;
-                cursor: pointer;
-                outline: none;
-                max-width: 560px;
-                overflow: hidden;
-              
-                /* nền ảnh từ biến --bg */
-                background: var(--bg) center/cover no-repeat;
-                color: #fff;
-                border: 2px solid rgba(255,255,255,0.15);
-                box-shadow: 0 14px 36px rgba(0,0,0,0.25);
-              
-                /* transition mượt */
-                transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, filter .25s ease;
-              }
-              
-              /* overlay tối để chữ dễ đọc */
-              .nav-card::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background: rgba(0,0,0,0.45);
-                z-index: 0;
-              }
-              
-              .nav-card h2,
-              .nav-card p,
-              .nav-card .cta-like,
-              .nav-card-badge {
-                position: relative;
-                z-index: 1;
-              }
-              
-              /* badge */
-              .nav-card-badge {
-                position: absolute;
-                top: 12px; right: 12px;
-                background: #ffd166;
-                color: #6b4f00;
-                font-weight: 700;
-                font-size: .75rem;
-                padding: 4px 8px;
-                border-radius: 999px;
-                z-index: 2;
-              }
-              
-              /* hover & focus effect */
-              .nav-card:hover,
-              .nav-card:focus-visible {
-                transform: translateY(-6px) scale(1.02);
-                box-shadow: 0 20px 44px rgba(0,0,0,0.45);
-                border-color: rgba(255,255,255,0.5);
-                filter: brightness(1.1);
-              }
-              
-              /* bấm xuống (click effect) */
-              .nav-card:active {
-                transform: scale(0.98);
-                filter: brightness(0.9);
-              }
-              
-              /* CTA nút trong card */
-              .cta-like {
-                display: inline-block;
-                padding: 8px 14px;
-                border-radius: 999px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                font-weight: 600;
-                font-size: .9rem;
-                box-shadow: 0 4px 15px rgba(102,126,234,0.35);
-              }
-              /* ===== CSS gọn trong 1 file để test ===== */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --bg1:#6a78ff; --bg2:#7a4ac7; --panel:#fff; --text:#1f2937; }
-
-    body {
-      min-height: 100dvh;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto,
-        "Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",sans-serif;
-      background: radial-gradient(1200px 600px at 50% -10%, var(--bg1), var(--bg2));
-      color: var(--text);
-    }
-    .container { max-width: 1120px; margin: 24px auto 56px; padding: 0 20px; }
-
-    .site-hero {
-      background: linear-gradient(135deg,#8b5cf6,#6d28d9);
-      color:#fff; border-radius:18px; box-shadow:0 18px 40px rgba(0,0,0,.25);
-      padding: 32px 24px 20px;
-    }
-    .site-hero h1 { margin-bottom:6px; font-size: clamp(22px,3.6vw,40px); letter-spacing:.02em; }
-    .site-hero p { opacity:.9; }
-    .panel {
-      background: var(--panel); color: var(--text);
-      border-radius:18px; margin-top:14px; padding:16px 18px; font-size:.95rem;
-      box-shadow:0 12px 28px rgba(0,0,0,.18);
-    }
-
-    /* ===== MENU ===== */
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 28px;
-      margin: 28px auto 0;
-      align-items: start;
-    }
-    .menu-item { text-decoration: none; color: var(--text); }
-    .menu-item figure { margin:0; display:grid; gap:10px; justify-items:center; }
-
-    .menu-item img {
-      inline-size: 100%;
-      block-size: 150px;
-      object-fit: cover;
-      border-radius: 14px;
-      box-shadow: 0 10px 22px rgba(0,0,0,.22);
-      transform: translateY(0) scale(1);
-      transition: transform .28s ease, box-shadow .28s ease, filter .28s ease;
-      will-change: transform, box-shadow, filter;
-      background: #f3f4f6; /* nền xám nhẹ nếu ảnh chưa tải xong */
-    }
-    .menu-item:hover img, .menu-item:focus-visible img {
-      transform: translateY(-6px) scale(1.06);
-      box-shadow: 0 18px 36px rgba(0,0,0,.32);
-      filter: brightness(1.05) saturate(1.05);
-    }
-    .menu-item figcaption {
-      font-weight:700; font-size:1.05rem; text-align:center;
-      background: rgba(255,255,255,.86);
-      padding:6px 10px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.08);
-    }
-    .menu-item:focus-visible { outline: none; }
-    .menu-item:focus-visible img {
-      box-shadow: 0 0 0 3px #a78bfa, 0 18px 36px rgba(0,0,0,.32);
-    }
-
-        }
+/* ========== Responsive nhỏ ========== */
+@media (max-width: 520px){
+  .menu-card{ height:105px; flex-basis: 72vw; } /* thẻ rộng hơn trên mobile để dễ bấm */
+  .menu-card .label{ font-size:0.92rem; }
+}
