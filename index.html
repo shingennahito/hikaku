@@ -8,27 +8,28 @@
 </head>
 <body>
   <div class="container">
+    <!-- HEADER gọn, không còn panel trắng -->
     <header class="site-hero" role="banner">
       <h1>🎁 ギフト比較ポータル</h1>
-      <p>目的に合わせて、最適な比較ページへ</p>
-      <div class="panel">
-        <p>下の<strong>メニュー画像</strong>をクリックすると、該当の比較ページへ移動します。</p>
-      </div>
+      <p class="subtitle">目的に合わせて、最適な比較ページへ</p>
     </header>
 
-    <nav class="menu" aria-label="比較メニュー">
-      <a href="compare.html" class="menu-item" aria-label="カタログギフト比較ページへ">
-        <figure>
-          <!-- ĐẢM BẢO file này tồn tại đúng THƯ MỤC & TÊN -->
-          <img src="image/cnr-rebody_s5_600x.jpg" alt="カタログギフト比較">
-          <figcaption>カタログギフト比較</figcaption>
-        </figure>
+    <!-- MENU ẢNH NẰM NGANG -->
+    <nav class="menu-row" aria-label="比較メニュー">
+      <!-- MỤC 1 -->
+      <a href="compare.html" class="menu-card" aria-label="カタログギフト比較ページへ">
+        <img src="image/cataloggift.jpg" alt="カタログギフト比較">
+        <span class="label">カタログギフト比較</span>
       </a>
-        <!-- Có thể thêm mục khác tương tự -->
+
+      <!-- Bạn có thể nhân bản khối dưới để thêm mục -->
+      <!--
+      <a href="another.html" class="menu-card" aria-label="別の比較ページへ">
+        <img src="image/other.jpg" alt="別の比較">
+        <span class="label">別の比較</span>
+      </a>
+      -->
     </nav>
   </div>
 </body>
 </html>
-
-
-
