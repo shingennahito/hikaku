@@ -1,36 +1,153 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🎁 ギフト比較ポータル</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>カタログギフト比較</title>
   <link rel="stylesheet" href="main.css" />
 </head>
 <body>
   <div class="container">
-    <!-- HEADER gọn, không còn panel trắng -->
-    <header class="site-hero" role="banner">
-      <h1>🎁 ギフト比較ポータル</h1>
-      <p class="subtitle">目的に合わせて、最適な比較ページへ</p>
+    <header>
+      <h1>🎁 カタログギフト比較</h1>
+      <p class="subtitle">最適なギフトカタログを見つけよう</p>
     </header>
 
-    <!-- MENU ẢNH NẰM NGANG -->
-    <nav class="menu-row" aria-label="比較メニュー">
-      <!-- MỤC 1 -->
-      <a href="compare.html" class="menu-card" aria-label="カタログギフト比較ページへ">
-        <img src="image/cnr-rebody_s5_600x.jpg" alt="カタログギフト比較">
-        <span class="label">カタログギフト比較</span>
-      </a>
+    <div class="intro">
+      <p>カタログギフトの価格、特徴、内容を簡単に比較できます。大切な方への贈り物に最適なカタログをお選びください。</p>
+    </div>
 
-      <!-- Bạn có thể nhân bản khối dưới để thêm mục -->
-      <!--
-      <a href="another.html" class="menu-card" aria-label="別の比較ページへ">
-        <img src="image/other.jpg" alt="別の比較">
-        <span class="label">別の比較</span>
-      </a>
-      -->
-    </nav>
+    <div class="table-container">
+      <!-- THANH NÚT NẰM NGANG -->
+      <div class="buttons-row">
+        <a href="index.html" class="cta-button tertiary">CATALOG GIFT LINE UP</a>
+        <a href="＃" class="cta-button tertiary">体験型カタログギフト</a>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%;">商品</th>
+            <th style="width: 70%;">詳細情報</th>
+          </tr>
+        </thead>
+
+        <tbody id="productTableBody">
+          <!-- SẢN PHẨM MẪU - Bạn có thể xóa hoặc chỉnh sửa -->
+          <tr>
+            <td class="product-cell">
+              <div class="product-name">THE PRECIOUS GIFT CATALOG</div>
+              <div class="product-gallery">
+                <img class="product-image" src="image/precious.jpg" alt="Catalog Gift" />
+              </div>
+              <div class="button-group">
+                <a href="https://www.giftmarry.jp/html/page78.html" class="cta-button secondary">お買い物・詳細ページへ</a>
+              </div>
+            </td>
+
+            <td>
+              <div class="spec-table">
+                <div class="spec-row">
+                  <div class="spec-label">コース数</div>
+                  <div class="spec-value"><span class="price-highlight">16コース</span><br />2,348円〜60,469円</div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">アイテム数</div>
+                  <div class="spec-value">
+                    
+                    <span style="margin-left: 10px;">最大572ページ</span>
+                  </div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">グルメ数</div>
+                  <div class="spec-value">
+                    
+                    <span style="margin-left: 10px;">最大830点</span>
+                  </div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">即納対応</div>
+                  <div class="spec-value">-</div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">配送便</div>
+                  <div class="spec-value">宅配便</div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">送料</div>
+                  <div class="spec-value"><strong>全品無料</strong></div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">説明</div>
+                  <div class="spec-value">
+                    <span class="campaign-text">人気カタログギフトだからできる大量仕入れで実現した脅威の値引き率で、ご注文者様からも大変ご好評をいただいております！</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="product-cell">
+              <div class="product-name">華むすび</div>
+              <div class="product-gallery">
+                <img class="product-image" src="image/hanamusubi.jpg" alt="Catalog Gift" />
+              </div>
+              <div class="button-group">
+                <a href="https://www.giftmarry.jp/shopbrand/ct2609/" class="cta-button secondary">お買い物・詳細ページへ</a>
+              </div>
+            </td>
+
+            <td>
+              <div class="spec-table">
+                <div class="spec-row">
+                  <div class="spec-label">コース数</div>
+                  <div class="spec-value"><span class="price-highlight">23コース</span><br />3080円〜11088円</div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">アイテム数</div>
+                  <div class="spec-value">
+                   
+                    <span style="margin-left: 10px;">最大572ページ</span>
+                  </div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">グルメ数</div>
+                  <div class="spec-value">
+                    
+                    <span style="margin-left: 10px;">最大179点</span>
+                  </div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">即納対応</div>
+                  <div class="spec-value">-</div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">配送便</div>
+                  <div class="spec-value">宅配便</div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">送料</div>
+                  <div class="spec-value"><strong>全品無料</strong></div>
+                </div>
+                <div class="spec-row">
+                  <div class="spec-label">キャンペーン</div>
+                  <div class="spec-value">
+                    <span class="campaign-text">ご婚礼、ご出産、長寿祝いなど、おめでたいシーンにこだわりが光るギフトをお探しなら華むすびがおすすめです。</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- ============================================ -->
+          <!-- THÊM SẢN PHẨM MỚI TẠI ĐÂY                    -->
+          <!-- ============================================ -->
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <script src="app.js" defer></script>
 </body>
 </html>
-
