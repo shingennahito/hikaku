@@ -113,8 +113,8 @@
         }
 
         .product-image {
-            width: 180px;
-            height: 180px;
+            width: 750px;
+            height: 400px;
             object-fit: cover;
             border-radius: 10px;
             margin: 0 auto 15px;
@@ -253,157 +253,19 @@
                 font-size: 0.85em;
             }
 
-            .button-group {
-                flex-direction: column;
+           .buttons-row{
+            display:flex;
+            gap:10px;
+            justify-content:flex-start;
+            align-items:center;
+            flex-wrap:wrap;
             }
-            /* ==== Hover/Active/Focus effects for home cards ==== */
-            .nav-card{
-            position: relative;
-            cursor: pointer;
-            background: #ffffff;                       /* khác hẳn nền */
-            border: 2px solid rgba(102,126,234,0.25);
-            border-radius: 16px;
-            box-shadow: 0 12px 30px rgba(102,126,234,0.20);
-            transition: transform .2s ease,
-                        box-shadow .25s ease,
-                        border-color .2s ease,
-                        background-color .2s ease;
-            will-change: transform, box-shadow;
-            overflow: hidden; /* để pseudo glow không tràn */
+            .button-group{ display:inline-flex; }              /* mỗi group là inline-flex để đứng cạnh nhau */
+            .button-group .cta-button{ display:inline-flex; }  /* tránh full-width */
+            @media (max-width:768px){
+            .buttons-row{ flex-wrap:wrap; }
             }
 
-           
-          /* Hiệu ứng cho thẻ .nav-card (áp dụng mọi kích thước) */
-       .nav-card{
-         position: relative;
-         cursor: pointer;
-         background: #ffffff;
-         border: 2px solid rgba(102,126,234,0.25);
-         border-radius: 16px;
-         box-shadow: 0 12px 30px rgba(102,126,234,0.20);
-         transition: transform .2s ease, box-shadow .25s ease, border-color .2s ease, background-color .2s ease;
-         will-change: transform, box-shadow;
-         overflow: hidden;
-       }
-       .nav-card:active{
-         transform: translateY(-1px) scale(0.995);
-         box-shadow: 0 10px 28px rgba(102,126,234,0.35);
-       }
-       .nav-card::after{
-         content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
-         box-shadow: 0 0 0 0 rgba(102,126,234,0); transition: box-shadow .25s ease;
-       }
-       .nav-card .cta-like{ transition: transform .2s ease, box-shadow .2s ease; }
-       .nav-card:focus-visible{ outline: 3px solid #ffd166; outline-offset: 3px; }
-       
-       /* Chỉ bật hover trên thiết bị có chuột */
-       @media (hover: hover) and (pointer: fine){
-         .nav-card:hover{
-           transform: translateY(-6px) scale(1.01);
-           box-shadow: 0 18px 48px rgba(102,126,234,0.45);
-           border-color: #667eea;
-           background: linear-gradient(180deg,#fff 0%,#f7f9ff 100%);
-         }
-         .nav-card:hover::after{ box-shadow: 0 0 0 3px rgba(102,126,234,0.45) inset; }
-         .nav-card:hover .cta-like{
-           transform: translateX(4px);
-           box-shadow: 0 6px 20px rgba(102,126,234,0.45);
-         }
-       }
-                      /* ===========================
-          INDEX-ONLY (áp dụng khi <body class="page-index">)
-          =========================== */
-       
-       /* Nếu có ô trắng giới thiệu ở index thì ẩn đi */
-       .page-index .panel,
-       .page-index .intro { display: none; }
-       
-       /* Dải menu ảnh ngang; cuộn ngang nếu nhiều */
-       .page-index nav.menu,
-       .page-index nav.menu-row {
-         display: flex;
-         flex-wrap: nowrap;
-         gap: 14px;
-         align-items: stretch;
-         justify-content: center;   /* ít mục thì căn giữa */
-         overflow-x: auto;
-         padding: 10px 2px;
-         margin-top: 18px;
-         scroll-snap-type: x proximity;
-       }
-       
-       /* Thẻ ảnh */
-       .page-index .menu .menu-item,
-       .page-index .menu-row .menu-item {
-         position: relative;
-         flex: 0 0 clamp(220px, 26vw, 320px); /* chiều rộng thẻ */
-         height: 120px;                        /* chiều cao (ảnh ngang) */
-         border-radius: 14px;
-         overflow: hidden;
-         text-decoration: none;
-         color: inherit;
-         box-shadow: 0 10px 22px rgba(0,0,0,.22);
-         transform: translateY(0) scale(1);
-         transition: transform .28s ease, box-shadow .28s ease, filter .28s ease;
-         scroll-snap-align: start;
-       }
-       
-       .page-index .menu .menu-item figure,
-       .page-index .menu-row .menu-item figure {
-         margin: 0;
-         width: 100%; height: 100%;
-         position: relative; display: block;
-       }
-       
-       /* Ảnh lấp đầy khung, tỉ lệ nằm ngang */
-       .page-index .menu .menu-item img,
-       .page-index .menu-row .menu-item img {
-         width: 100%; height: 100%;
-         object-fit: cover; object-position: center;
-         display: block;
-         transition: transform .28s ease;
-       }
-       
-       /* Lớp phủ + nhãn đè góc dưới (không còn caption tạo khoảng trắng) */
-       .page-index .menu .menu-item::after,
-       .page-index .menu-row .menu-item::after{
-         content:""; position:absolute; inset:0;
-         background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 60%);
-         pointer-events:none; opacity:.75; transition: opacity .28s ease;
-       }
-       .page-index .menu .menu-item figcaption,
-       .page-index .menu-row .menu-item figcaption{
-         position:absolute; left:10px; bottom:10px; margin:0;
-         color:#fff; font-weight:700; font-size:.98rem;
-         background: rgba(0,0,0,.55);
-         padding:6px 10px; border-radius:10px; box-shadow:none;
-       }
-       
-       /* Hover/focus */
-       .page-index .menu .menu-item:hover,
-       .page-index .menu .menu-item:focus-visible,
-       .page-index .menu-row .menu-item:hover,
-       .page-index .menu-row .menu-item:focus-visible{
-         outline: none;
-         transform: translateY(-6px) scale(1.03);
-         box-shadow: 0 18px 36px rgba(0,0,0,.32);
-       }
-       .page-index .menu .menu-item:hover img,
-       .page-index .menu .menu-item:focus-visible img,
-       .page-index .menu-row .menu-item:hover img,
-       .page-index .menu-row .menu-item:focus-visible img{ transform: scale(1.06); }
-       .page-index .menu .menu-item:hover::after,
-       .page-index .menu .menu-item:focus-visible::after,
-       .page-index .menu-row .menu-item:hover::after,
-       .page-index .menu-row .menu-item:focus-visible::after{ opacity:.6; }
-       
-       /* Mobile: thẻ rộng hơn để dễ bấm */
-       @media (max-width: 520px){
-         .page-index .menu .menu-item,
-         .page-index .menu-row .menu-item { height:105px; flex-basis:72vw; }
-         .page-index nav.menu,
-         .page-index nav.menu-row { justify-content: flex-start; }
-       }
 
 
-}
+        }
