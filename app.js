@@ -1,10 +1,10 @@
 /* ========= Data (thay theo thực tế) ========= */
 const RANKING = [
   { id: 1, name: "カタログギフト", brand: "シャディ", price: 4900, image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
-  { id: 2, name: "リンベル プレゼンテージ", brand: "リンベル", price: 3300, image: "image/raking/cg-precious.jpg", url: "https://example.com/product/2" },
-  { id: 3, name: "ハーモニック テイク・ユア・チョイス", brand: "ハーモニック", price: 11000, image: "image/raking/cg-precious.jpg", url: "https://example.com/product/3" },
-  { id: 4, name: "グルメ専用 カタログ", brand: "厳選", price: 5500, image: "image/raking/cg-precious.jpg", url: "https://example.com/product/4" },
-  { id: 5, name: "体験型 カタログ", brand: "アクティビティ", price: 11000, image: "image/raking/cg-precious.jpg", url: "https://example.com/product/5" },
+  { id: 2, name: "リンベル プレゼンテージ", brand: "リンベル", price: 3300, image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
+  { id: 3, name: "ハーモニック テイク・ユア・チョイス", brand: "ハーモニック", price: 11000, image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
+  { id: 4, name: "グルメ専用 カタログ", brand: "厳選", price: 5500, image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
+  { id: 5, name: "体験型 カタログ", brand: "アクティビティ", price: 11000, image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
 ];
 
 
