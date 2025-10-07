@@ -1,0 +1,235 @@
+/* main.css */
+:root{
+  --bg:#f5f7fb; --ink:#1f2a44; --muted:#6b7a99;
+  --card:#fff; --line:#e6ecf4;
+  --accent:#8a5cff; --accent2:#ff2ea6; --chip:#ff4eb2;
+  --pull-up:160px; /* khoảng cách kéo lên của hình hero */
+  --talk-size: 68px;   /* kích thước avatar khung chat */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",Arial,sans-serif;
+  color:var(--ink); background:var(--bg);
+}
+.wrap{max-width:1100px;margin-inline:auto;padding-inline:16px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible{outline:3px solid #b5a6ff;outline-offset:2px}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:50;background:linear-gradient(90deg,#6d76ff,#9f5aff);color:#fff;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px}
+.brand{color:#fff;font-weight:800;letter-spacing:.02em;font-size:18px}
+.top-nav a{color:#fff;margin-left:14px;font-weight:600;opacity:.92}
+.top-nav a:hover{opacity:1}
+
+/* Layout */
+.page{ display:grid; grid-template-columns:1fr min(760px,100%) 220px; gap:16px; padding-block:8px 20px }
+.content{grid-column:2}
+/* Kéo toàn bộ nội dung lên dưới header */
+.site-header + .page{
+  margin-top: calc(-1 * var(--pull-up)) !important;
+}
+.side-nav{grid-column:3;position:sticky;top:84px;align-self:start;display:grid;gap:12px}
+.chip{display:block;text-align:center;padding:10px 8px;border-radius:999px;color:#fff;font-weight:700;letter-spacing:.02em;background:linear-gradient(180deg,#ff7edb,#ff49ad);box-shadow:0 8px 18px rgba(255,73,173,.35)}
+
+/* Cards / sections */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 14px 40px rgba(17,20,45,.06)}
+.section h2{margin:0 0 12px;font-size:24px}
+/* Văn bản kiểu nhật + khoảng cách đẹp */
+.jp-lead{ line-height: 2; margin: 0 0 1em; color:#253253; }
+
+/* Gạch nhấn màu kem + đậm, giống ảnh mẫu */
+.hl{
+  font-weight: 700;
+  background: linear-gradient(180deg, transparent 80%, #f3c6a2 0);
+  padding-bottom: .05em;
+}
+
+/* In đậm + gạch chân dày, cho câu trích dẫn */
+.u-strong{
+  font-weight: 800;
+  text-decoration-line: underline;
+  text-decoration-thickness: .18em;
+  text-underline-offset: .18em;
+  text-decoration-color: #f3c6a2;
+}
+/* Hero */
+.hero{position:relative;margin-top:calc(-1 * var(--pull-up));overflow:hidden;box-shadow:0 16px 40px rgba(17,20,45,.16)}
+.hero img{width:100%;height:auto;display:block;border-radius:12px}
+.hero-badge{position:absolute;right:12px;top:12px;background:#ff4eb2;color:#fff;padding:6px 10px;border-radius:999px;font-weight:700;box-shadow:0 6px 16px rgba(255,78,178,.35)}
+
+/* TOC – khung vàng + nhãn nổi */
+.toc{
+  position:relative;padding:26px 14px 14px;border:3px solid #e0c176;background:#fff;border-radius:12px;
+  box-shadow:0 8px 24px rgba(231, 102, 102, 0.05)
+}
+.toc h2{
+  position:absolute;left:50%;top:-18px;transform:translateX(-50%);
+  margin:0;padding:6px 18px;line-height:1.1;color:#fff;font-size:16px;font-weight:800;letter-spacing:.06em;
+  background:linear-gradient(180deg,#b23a48 0%,#8d1023 100%);border:2px solid #e0c176;border-radius:999px;
+  box-shadow:0 6px 16px rgba(0,0,0,.12)
+}
+.toc h2::before,.toc h2::after{
+  content:"";position:absolute;top:50%;width:16px;height:70%;transform:translateY(-50%) skewX(28deg);
+  background:linear-gradient(180deg,#f8e7b4,#e0c176);border:1px solid #d6b35a
+}
+.toc h2::before{left:-12px;border-right:none}
+.toc h2::after{right:-12px;border-left:none}
+.toc ul{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+.toc li{position:relative;background:#fff;padding:10px 36px 10px 12px;border:1px solid #ead9b0;border-radius:6px}
+.toc li a{color:#333;font-weight:600;text-decoration:none}
+.toc li a:hover{color:#8d1023;text-decoration:underline}
+.toc li::after{
+  content:"›";position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  width:22px;height:22px;display:grid;place-items:center;background:#c03248;color:#fff;border-radius:50%;font-weight:900;
+  box-shadow:0 4px 10px rgba(192,50,72,.35)
+}
+
+/* Ranking */
+.rank-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.rank-card{background:#ffffff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:grid;gap:8px;padding:10px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.05)}
+.rank-card .medal{font-weight:800;color:#000000}
+.rank-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px}
+.rank-card .name{font-weight:700;color:#333}
+.rank-card .brand{font-size:12px;color:var(--muted)}
+.rank-card .price{font-weight:800;color:#e23a3a}
+
+/* Comparison table */
+.table-host{overflow-x:auto}
+.compare-table{width:100%;border-collapse:collapse;min-width:700px}
+.compare-table th,.compare-table td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+.compare-table thead th{background:#f8f8f8;position:sticky;top:0;z-index:1}
+.compare-table th:first-child{width:160px}
+.col-head{display:grid;grid-template-columns:64px 1fr;gap:8px;align-items:center}
+.col-head img{width:50px;height:50px;object-fit:cover;border-radius:6px}
+.compare-table th,.compare-table td{font-size:14px;line-height:1.6}
+.compare-table th{font-weight:700;color:#333}
+.compare-table td{color:#555}
+.compare-table tbody tr:nth-child(odd){background:#fafafa}
+
+/* Detail cards */
+.detail-list{display:grid;gap:16px}
+.detail-card{display:grid;grid-template-columns:200px 1fr;gap:12px;border:1px solid var(--line);border-radius:12px;padding:12px}
+.detail-card img{width:200px;height:200px;object-fit:cover;border-radius:8px}
+.detail-card h3{margin:0;font-size:18px}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{background:#fa0505;color:#050505;padding:4px 8px;border-radius:8px;font-size:12px;font-weight:700}
+
+/* Misc */
+.howto{display:grid;gap:50px}
+.bullet{margin:0;padding-left:18px}
+.bullet li{margin:6px 0}
+.backtotop{position:fixed;right:18px;bottom:18px;z-index:60;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;box-shadow:0 12px 28px rgba(138,92,255,.4)}
+
+/* Responsive */
+@media (max-width:1024px){
+  .page{grid-template-columns:1fr min(760px,100%)}
+  .side-nav{display:none}
+  .rank-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .rank-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .detail-card{grid-template-columns:1fr}
+}
+
+/* anchor offset */
+.section,.hero,.lead{scroll-margin-top:80px}
+/* Card hover effect */
+.rank-card{
+  text-decoration: none;      /* nếu là <a> thì bỏ gạch chân */
+  color: inherit;
+  transition: transform .18s ease, box-shadow .18s ease;
+  will-change: transform;
+}
+.rank-card:hover,
+.rank-card:focus-visible{
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(17,20,45,.16);
+}
+.rank-card:active{
+  transform: translateY(-2px);
+}
+/* nếu card không có link thì disable click */
+.rank-card[aria-disabled="true"]{
+  pointer-events: none;
+  cursor: default;
+}
+/* ==== Khung chat dưới section Details ==== */
+.talk{
+  display:grid;
+  grid-template-columns: 80px 1fr;
+  gap:14px;
+  align-items:start;
+  margin-top:16px;
+}
+.talk .speaker{display:flex;flex-direction:column;align-items:center;gap:8px}
+.talk .avatar{
+  width:68px;height:68px;object-fit:cover;border-radius:50%;
+  border:1px solid #e9e2d8;background:#fff;
+}
+.talk .name{font-size:12px;color:#6d645c;letter-spacing:.02em}
+
+/* Bóng thoại màu kem có “đuôi” chỉ từ avatar sang */
+.talk .balloon{
+  position:relative;
+  background:#fde7cf;                /* màu nền */
+  border:1px solid #f3c6a2;          /* viền nhạt */
+  color:#333;
+  padding:14px 16px;
+  border-radius:16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.06);
+  line-height:1.7;
+  height:var(--talk-size); padding:60 16px;   /* chiều cao = kích thước avatar */
+}
+.talk .balloon::before{              /* viền của đuôi */
+  content:"";position:absolute;left:-12px;top:22px;
+  border:10px solid transparent;border-right-color:#f3c6a2;
+}
+.talk .balloon::after{               /* nền của đuôi */
+  content:"";position:absolute;left:-11px;top:22px;
+  border:10px solid transparent;border-right-color:#fde7cf;
+}
+
+/* Mobile xếp dọc */
+@media (max-width:640px){
+  .talk{grid-template-columns: 64px 1fr}
+  .talk .avatar{width:60px;height:60px}
+}
+/* ==== End khung chat ==== */
+/* Checkmark rows */
+/* Maru/Batsu trong bảng so sánh */
+.compare-table th.feature{ white-space: nowrap; }
+
+.compare-table td.yes,
+.compare-table td.no{
+  text-align:center;
+  font-weight:800;
+  font-size:18px;
+}
+
+.compare-table td.yes:before{  content:"〇";color:#1a7f37; }  /* 〇 xanh */
+.compare-table td.no:before{  content:"×";color:#d83a3a; }  /* × đỏ */
+/* ==== End checkmark rows ==== */  
+/* header cột: xếp dọc ảnh → tên */
+.compare-table .col-head.vertical{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  text-align:center;
+}
+.compare-table .col-head.vertical img{
+  width:64px; height:64px;            /* chỉnh 64/72 tuỳ ý */
+  object-fit:cover; border-radius:6px;
+}
+/* style cho tên (link) */
+.compare-table .col-name{
+  font-weight:700; color:var(--ink); text-decoration:none; line-height:1.3;
+}
+.compare-table .col-name:hover{ color:var(--accent); text-decoration:underline; }
+.compare-table .col-price{ font-weight:800; color:#e23a3a; margin-top:4px; }
+/* ==== End header cột ==== */
