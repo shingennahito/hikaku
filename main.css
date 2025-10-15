@@ -508,7 +508,7 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
   position:relative;          /* để đặt nút mũi tên tuyệt đối */
 }
 #detailCarousel .dc-stage{
-  max-width:560px;            /* bề rộng card gọn như demo */
+  max-width:780px;            /* bề rộng card gọn như demo */
   width:100%;
 }
 
