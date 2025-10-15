@@ -1,11 +1,12 @@
 /* =========================================================
-   1) DATA: RANKING / FEATURES / PRODUCTS
+   0) DỮ LIỆU HIỂN THỊ (DATA): RANKING / FEATURES / PRODUCTS
+   - Chỉ chứa data dùng để render UI (không có logic)
    ========================================================= */
 const RANKING = [
   { id: 1, name: "マリープレシャスカタログギフト", brand: "シャディ", price:" 2,678円～60,264(税込)", image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
   { id: 2, name: "テイク・ユア・チョイス", brand: "リンベル", price:"3,190円～56,650円(税込)", image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
   { id: 3, name: "JTB たびもの撰華", brand: "ハーモニック", price: "3,190円～55,990円(税込)", image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
-  { id: 4, name: "EXCELLENTCHOICE", brand: "厳選", price: "3,190円～55,990円(税込)", image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
+  { id: 4, name: "EXCELLENT CHOICE", brand: "厳選", price: "3,190円～55,990円(税込)", image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
   { id: 5, name: "バリューチョイス", brand: "アクティビティ", price: "9,900円～34,430円(税込)", image: "image/raking/cg-precious.jpg", url: "https://www.giftmarry.jp/html/page78.html" },
 ];
 
@@ -41,10 +42,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚・出産・内祝い・香典返し"
   },
   {
@@ -68,10 +66,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "内祝い・法人"
   },
   {
@@ -95,10 +90,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "内祝い・結婚・出産・香典返し"
   },
   {
@@ -122,10 +114,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚内祝い、出産内祝い、香典返し"
   },
   {
@@ -149,10 +138,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚・出産・内祝い・香典返し"
   },
   {
@@ -176,10 +162,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚祝い・引き出物・成人祝い・長寿祝い"
   },
   {
@@ -203,10 +186,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "社内行事・長寿・還暦祝い"
   },
   {
@@ -230,10 +210,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "夫婦・カップル・友人・2名プラン"
   },
   {
@@ -257,10 +234,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "夫婦・カップル・友人・2名プラン"
   },
   {
@@ -284,10 +258,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "友人・祝い"
   },
   {
@@ -311,10 +282,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "長寿・還暦祝い・成人祝い"
   },
   {
@@ -338,10 +306,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "景品・福利厚生・引出物"
   },
   {
@@ -365,10 +330,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "女性専用・友人・カップル"
   },
   {
@@ -392,10 +354,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "男性専用・友人・カップル"
   },
   {
@@ -419,10 +378,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚・出産・内祝い・長寿・還暦祝い"
   },
   {
@@ -446,10 +402,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚・出産・内祝い・長寿・還暦祝い"
   },
   {
@@ -473,10 +426,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚・出産・内祝い・長寿・還暦祝い"
   },
   {
@@ -500,10 +450,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚・出産・内祝い・長寿・還暦祝い"
   },
   {
@@ -527,10 +474,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚・出産・内祝い・長寿・還暦祝い・引出物"
   },
   {
@@ -554,10 +498,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚・出産・内祝い・長寿・還暦祝い・引出物"
   },
   {
@@ -581,10 +522,7 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "結婚内祝い、出産内祝い、香典返し"
   },
   {
@@ -608,16 +546,14 @@ const PRODUCTS = [
       "熨斗紙対応": true,
       "ラッピング対応": true
     },
-    "tags": [
-      "個別送料無料",
-      "人気"
-    ],
+    "tags": ["個別送料無料","人気"],
     "intro": "誕生日・結婚・新築"
   }
 ];
 
 /* =========================================================
-   1) CONSTANTS: HOWTO / CAUTIONS / SUMMARY
+   1) CONSTANTS NỘI DUNG: HOWTO / CAUTIONS / SUMMARY / TALK
+   - Chữ tĩnh để render các box “Cách chọn / Lưu ý / Tóm tắt”
    ========================================================= */
 const HOWTO = Object.freeze([
   { title:"用途で選ぶ", text:"結婚・出産・香典返しなど、贈り先の用途に合わせて価格帯と世界観を選びましょう。" },
@@ -636,9 +572,8 @@ const SUMMARY = Object.freeze([
   "食に強い相手にはグルメ特化、アクティブな相手には体験型も◎。",
   "企業・大量発注は割引条件と納期を先に確認。",
 ]);
-/* =========================================================
-   2) TALK (balloon dưới carousel)
-   ========================================================= */
+
+/* 2) TALK (balloon dưới carousel) */
 const DETAILS_TALK = {
   img: 'image/icon/cat.png',
   name: 'cat',
@@ -646,9 +581,9 @@ const DETAILS_TALK = {
 };
 
 
-/* ============================================================================
-   1) TIỆN ÍCH CHUNG (HELPERS)
-   ============================================================================ */
+/* =========================================================
+   2) TIỆN ÍCH CHUNG (HELPERS) – DOM & FORMAT
+   ========================================================= */
 const $  = (sel, root=document) => root.querySelector(sel);
 const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 const yen = n => new Intl.NumberFormat("ja-JP",{ style:"currency", currency:"JPY", maximumFractionDigits:0 }).format(n);
@@ -674,9 +609,18 @@ function enableGrabScroll(el){
 }
 
 
-/* ============================================================================
-   2) TOC (MỤC LỤC)
-   ============================================================================ */
+/* =========================================================
+   3) RENDER THEO THỨ TỰ PHẦN TRONG HTML
+   ---------------------------------------------------------
+   3.1) TOC (MỤC LỤC)
+   3.2) RANKING
+   3.3) COMPARE
+   3.4) DETAIL CAROUSEL (#detailCarousel)
+   3.5) CĂN MŨI TÊN CAROUSEL
+   3.6) HOWTO / CAUTION / SUMMARY
+   ========================================================= */
+
+/* 3.1) TOC (MỤC LỤC) */
 function renderTOC(){
   const host = $("#toc");
   if (!host) return;
@@ -704,10 +648,7 @@ function renderTOC(){
   host.appendChild(ul);
 }
 
-
-/* ============================================================================
-   3) RANKING
-   ============================================================================ */
+/* 3.2) RANKING */
 function renderRanking(){
   const host = $("#rankingGrid");
   if(!host) return;
@@ -736,16 +677,13 @@ function renderRanking(){
   }).join("");
 }
 
-
-/* ============================================================================
-   4) COMPARE
-   ============================================================================ */
+/* 3.3) COMPARE */
 function renderCompare(){
   const list = PRODUCTS;
   const host = document.getElementById("compareHost");
   if (!host) return;
 
-  // 1) THEAD: ảnh + tên/link
+  // THEAD: ảnh + tên/link
   const cols = list.map(p => `
     <th scope="col">
       <div class="col-head vertical">
@@ -757,7 +695,7 @@ function renderCompare(){
     </th>`).join("");
 
   // Ẩn một số specs để bảng gọn
-  const HIDE_SPECS = new Set(["有効期限","掲載点数" ,  "取扱ジャンル" ,"おすすめのシーン"]);
+  const HIDE_SPECS = new Set(["有効期限","掲載点数","取扱ジャンル","おすすめのシーン"]);
 
   // Gom tất cả key (price + specs hiển thị)
   const keys = new Set(["price"]);
@@ -784,12 +722,7 @@ function renderCompare(){
     </div>`;
 }
 
-
-/* ============================================================================
-   5) CAROUSEL 詳細 – #detailCarousel
-   - Track ngang + "peek" ảnh kế ở mép phải
-   - Tất cả truy cập DOM có kiểm tra null → không văng lỗi
-   ============================================================================ */
+/* 3.4) DETAIL CAROUSEL (#detailCarousel) */
 function initDetailCarousel(list = PRODUCTS){
   const wrap = $("#detailCarousel");
   if(!wrap || !list?.length) return;
@@ -811,7 +744,7 @@ function initDetailCarousel(list = PRODUCTS){
     const lines = [];
     lines.push(`<li>価格帯：${fmtPrice(p.price)}（目安）</li>`);
     if(p.specs?.コース数)         lines.push(`<li>コース数：${p.specs.コース数}</li>`);
-    if(p.specs?.掲載点数)         lines.push(`<li>掲載点数：${p.specs.掲載点数}点</li>`);
+    if(p.specs?.掲載点数)         lines.push(`<li>掲載点数：${p.specs.掲載点数}</li>`);
     if(p.specs?.取扱ジャンル)     lines.push(`<li>取扱ジャンル：${p.specs.取扱ジャンル}。</li>`);
     if(p.specs?.有効期限)         lines.push(`<li>有効期限：${p.specs.有効期限}</li>`);
     if(p.specs?.おすすめのシーン)  lines.push(`<li>おすすめのシーン：${p.specs.おすすめのシーン}。</li>`);
@@ -840,68 +773,9 @@ function initDetailCarousel(list = PRODUCTS){
       </aside>
     </figure>
   `).join("");
-
-  let cur = 0, step = 0; // step = card width + gap
-
-  function measure(){
-    const card = track.querySelector(".dc-stage");
-    if(!card) return;
-    const rect = card.getBoundingClientRect();
-    const gap  = parseFloat(getComputedStyle(track).gap) || 0;
-    step = rect.width + gap;
-    track.style.transform = `translateX(${-cur * step}px)`;
-  }
-
-  function makePagerModel(total, current){
-    const pages = [];
-    const cur1 = current + 1;
-    const keep = new Set([1,2,total-1,total, cur1-2,cur1-1,cur1,cur1+1,cur1+2]
-      .filter(n => n>=1 && n<=total));
-    pages.push('prev');
-    for(let i=1;i<=total;i++){
-      if(keep.has(i)) pages.push(i);
-      else if(pages[pages.length-1] !== '…') pages.push('…');
-    }
-    pages.push('next'); return pages;
-  }
-
-  function renderPager(){
-    if (!dotsEl) return;
-    const items = makePagerModel(list.length, cur);
-    dotsEl.innerHTML = items.map(item => {
-      if(item === 'prev') return `<button class="pg-btn" data-act="prev">前へ</button>`;
-      if(item === 'next') return `<button class="pg-btn" data-act="next">次へ</button>`;
-      if(item === '…')   return `<span class="pg-ellipsis">…</span>`;
-      const isCur = (item === cur + 1) ? 'is-current' : '';
-      return `<button class="pg-num ${isCur}" data-page="${item}">${item}</button>`;
-    }).join('');
-    dotsEl.querySelector('[data-act="prev"]')?.addEventListener('click', () => go(cur - 1));
-    dotsEl.querySelector('[data-act="next"]')?.addEventListener('click', () => go(cur + 1));
-    dotsEl.querySelectorAll('.pg-num').forEach(btn => {
-      btn.addEventListener('click', () => go(parseInt(btn.dataset.page, 10) - 1));
-    });
-  }
-
-  function go(i){
-    cur = (i + list.length) % list.length;
-    track.style.transform = `translateX(${-cur * step}px)`;
-    renderPager();
-    positionCarouselArrows(); // căn lại nếu CSS thay đổi
-  }
-
-  nextBtn?.addEventListener('click', () => go(cur + 1));
-  viewport?.addEventListener('keydown', e => { if(e.key === 'ArrowRight') go(cur + 1); });
-
-  // init + responsive
-  measure(); renderPager();
-  window.addEventListener('resize', measure);
-  window.addEventListener('orientationchange', measure);
 }
 
-
-/* ============================================================================
-   5.1) Căn mũi tên (an toàn, không ném lỗi nếu thiếu phần tử)
-   ============================================================================ */
+/* 3.5) Căn mũi tên (an toàn, không ném lỗi nếu thiếu phần tử) */
 function positionCarouselArrows(){
   const wrap = document.getElementById("detailCarousel");
   if(!wrap) return;
@@ -919,12 +793,7 @@ function positionCarouselArrows(){
   // Giữ bên phải/trái bằng CSS hiện có; chỉ cần đảm bảo không crash.
 }
 
-
-
-
-/* ============================================================================
-   7) HOW TO / CAUTION / SUMMARY
-   ============================================================================ */
+/* 3.6) HOW TO / CAUTION / SUMMARY */
 function renderHowto(list = HOWTO){
   const host = $("#howtoHost");
   if (!host) return;
@@ -946,17 +815,22 @@ function renderSummary(list = SUMMARY){
 }
 
 
-/* ============================================================================
-   8) INIT
-   ============================================================================ */
+/* =========================================================
+   4) KHỞI TẠO (INIT) – DOMContentLoaded
+   - Gọi các renderer theo thứ tự xuất hiện trong trang
+   - Gắn sự kiện cuộn mượt, đóng nav mobile, resize…
+   ========================================================= */
 window.addEventListener("DOMContentLoaded", () => {
+  // TOC + Các khối chính
   renderTOC();
   renderRanking();
   renderCompare();
   enableGrabScroll(document.querySelector('#compareHost'));
 
+  // Carousel
   initDetailCarousel(PRODUCTS);
  
+  // Howto/Caution/Summary
   renderHowto();
   renderCaution();
   renderSummary();
@@ -996,6 +870,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // gọi lần đầu
   positionCarouselArrows();
 });
-/* ============================================================================
+
+/* =========================================================
    HẾT
-   ============================================================================ */
+   ========================================================= */
