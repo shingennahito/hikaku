@@ -465,9 +465,6 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
   text-decoration:none;
 }
 .dc-btn:hover, .btn-cta:hover{ filter:brightness(1.05); text-decoration:none; }
-
-
-
 /* Đưa cụm CTA xuống dưới sân khấu và căn giữa (phù hợp ảnh minh họa) */
 #detailCarousel .dc-meta{ grid-column:1 / -1; justify-self:center; }
 #detailCarousel .dc-pricebox{ margin-top:12px !important; justify-items:center; }
@@ -478,7 +475,6 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
   grid-template-columns:1fr !important;  /* luôn 1 cột, không để cột phải trống */
   justify-items:center;                   /* căn giữa khung */
 }
-
 /* Card bao toàn bộ 1 sản phẩm (ảnh + text) */
 #detailCarousel .dc-stage{
   background:#fff;
@@ -489,32 +485,10 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
   max-width:560px;                        /* bề rộng card */
   width:100%;
 }
-
-/* Ảnh nằm gọn trong card, không phá layout */
-#detailCarousel #dcImg{
-  width:100% !important;
-  height:auto !important;
-  aspect-ratio:1 / 1;                     /* vuông gọn; bỏ nếu muốn 16:9 */
-}
-
-
-
-/* Căn card #detailCarousel về bên trái, không căn giữa */
-#detailCarousel .dc-wrap{
-  grid-template-columns:1fr !important;
-  justify-items:start;        /* quan trọng: căn trái card */
-  margin-left:0;              /* bỏ center do margin:0 auto ở .dc-wrap gốc */
-  margin-right:0;
-  position:relative;          /* để đặt nút mũi tên tuyệt đối */
-}
 #detailCarousel .dc-stage{
   max-width:780px;            /* bề rộng card gọn như demo */
   width:100%;
 }
-
-
-
-
 /* Các card trong 「各カタログの詳細」 xếp dọc, CĂN GIỮA và CÓ KHOẢNG CÁCH */
 #dcTrack{
   display: grid;
