@@ -1,13 +1,12 @@
 
  
-/* =============================================================================
-   0) Biến toàn cục (CSS Variables)
-   Mục đích: định nghĩa màu sắc, kích thước, bóng đổ, bo góc… để mọi thành phần
-   dùng chung. Thay đổi ở đây sẽ lan tỏa toàn site.
-   - --header-h / --header-safe: chiều cao header và phần bù cho tai thỏ (safe-area)
-   - --compare-* : các tham số cho bảng so sánh (cột cố định, số cột hiển thị…)
-   - --content-max / --side-width: layout 2 cột cho desktop
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   01. GLOBAL TOKENS (CSS VARIABLES)
+   ------------------------------------------------------------------------
+   Quy ước màu sắc, khoảng cách, bóng đổ và thông số layout dùng chung.
+   Các khối bên dưới được sắp theo đúng thứ tự HTML: header → main →
+   back-to-top → footer.
+   ======================================================================== */
 :root{
   
   /* Màu & nền cơ bản */
@@ -51,11 +50,12 @@
   --side-width: 220px;         /* Rộng cột bên phải */
 }
 
-/* =============================================================================
-   1) Reset & cơ bản (Base)
-   Mục đích: đặt lại hành vi mặc định trình duyệt + kiểu chữ/nền/link chung.
-   - Lưu ý: không đổi selector, chỉ mô tả bằng tiếng Việt.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   02. BASE RESET & TYPOGRAPHY
+   ------------------------------------------------------------------------
+   Đặt lại hành vi mặc định của trình duyệt và thiết lập kiểu chữ, màu nền,
+   liên kết. Áp dụng chung trước khi bước vào từng phần HTML cụ thể.
+   ======================================================================== */
 *{ box-sizing:border-box; }
 html, body{ height:100%; }
 body{
@@ -75,12 +75,12 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
 .content{ display:flow-root; }
 .content > :first-child{ margin-block-start:0; }
 
-/* =============================================================================
-   2) HEADER + NAV chính
-   Khớp với <header class="site-header"> trong HTML.
-   - Header dùng nền gradient, cố định (fixed) để luôn hiện khi cuộn.
-   - Nav desktop hiển thị ngang; mobile có nút ☰ và backdrop.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   03. HEADER & NAVIGATION (<header>)
+   ------------------------------------------------------------------------
+   Header gradient cố định trên cùng, nav chip cho desktop và menu trượt
+   cho mobile. Bắt đầu chuỗi quy tắc theo đúng thứ tự HTML.
+   ======================================================================== */
 .site-header{
   background:linear-gradient(90deg,#6d76ff,#9f5aff);
   box-shadow:var(--shadow-header);
@@ -223,11 +223,12 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
 }
 
 
-/* =============================================================================
-   3) LAYOUT trang (grid chính)
-   - Mặc định 1 cột (nội dung). Khi có .side-nav → 2 cột.
-   - Giữa trang theo chiều ngang.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   04. MAIN LAYOUT WRAPPERS (<main>)
+   ------------------------------------------------------------------------
+   Thiết lập lưới tổng cho trang và khung `.page`, `.content`, `.side-nav`
+   trước khi đi vào từng section cụ thể bên trong `<main>`.
+   ======================================================================== */
 .page{
   align-items:start;
   display:grid;
@@ -240,10 +241,12 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
 .content{ grid-column:1; }
 .side-nav{ grid-column:2; }
 
-/* =============================================================================
-   4) THẺ/Card, SECTION, kiểu chữ chung
-   - Dùng lại cho tất cả khu vực: ranking, compare, carousel…
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   05. SHARED CARD & SECTION STYLES
+   ------------------------------------------------------------------------
+   Styles cho `.card`, tiêu đề section, highlight… dùng xuyên suốt các
+   block trong `<main>`.
+   ======================================================================== */
 .card{
   background:var(--card);
   border:1px solid var(--line);
@@ -267,11 +270,12 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
 }
 .u-strong{ font-weight:800; text-decoration-color:#f3c6a2; text-decoration-line:underline; text-decoration-thickness:.18em; text-underline-offset:.18em; }
 
-/* =============================================================================
-   5) LEAD/HERO (ảnh đầu bài)
-   - Giữ tỉ lệ 16:9, ảnh che phủ (object-fit: cover), badge tùy chọn.
-   - Các anchor (#id) khi cuộn tới sẽ trừ độ cao header (scroll-margin-top).
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   06. MAIN SECTION: LEAD / HERO (#lead)
+   ------------------------------------------------------------------------
+   Ảnh mở bài, typography phần giới thiệu và scroll-anchor cho các section
+   con bên trong hero.
+   ======================================================================== */
 .hero{ aspect-ratio:16 / 9; box-shadow:var(--shadow-hero); overflow:hidden; position:relative; }
 .hero.card{ border-radius:var(--radius-lg); overflow:hidden; padding:0; }
 .hero.card img{ display:block; height:100%; object-fit:cover; width:100%; }
@@ -291,21 +295,26 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
 /* Khối văn dẫn căn đều hai bên cho tiếng Nhật */
 .jp-lead-block{
   text-align:left;
-  --title-hang:1em;
-  --lead-right:2em;
+  display:grid;
+  gap:.8em;
 }
-.jp-lead-block h1.jp-lead,
+.jp-lead-block h1.jp-lead{
+  font-size:clamp(28px, 5vw, 38px);
+  font-weight:800;
+  margin:0;
+  padding:0;
+  line-height:1.25;
+}
 .jp-lead-block h2.jp-lead{
-  padding-left:.5em;           /* mép trái khớp p.jp-lead */
-  padding-right:1em;           /* mép phải khớp p.jp-lead */
-  margin:0 0 1em;              /* cách dưới 1em */
-  line-height:1.2;
+  font-size:clamp(18px, 3.5vw, 22px);
+  font-weight:600;
+  margin:0;
+  padding:0;
+  line-height:1.4;
 }
 .jp-lead-block p.jp-lead{
-  padding-left:var(--title-hang);
-  padding-right:var(--lead-right);
-  margin:0 0 .5em;
-  line-height:1.5;
+  margin:0;
+  line-height:1.7;
   text-align:justify;
   text-justify:inter-ideograph;
 }
@@ -314,25 +323,15 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
   :root{ --header-stack-offset: 24px; }
   .jp-lead-block{
     padding-inline:clamp(16px, 5vw, 22px);
-    --title-hang:0;
-    --lead-right:0;
-  }
-  .jp-lead-block h1.jp-lead,
-  .jp-lead-block h2.jp-lead{
-    padding-left:0;
-    padding-right:0;
-    line-height:1.25;
-  }
-  .jp-lead-block p.jp-lead{
-    padding-left:0;
-    padding-right:0;
+    gap:.6em;
   }
 }
 
-/* =============================================================================
-   6) TOC (Mục lục) – <nav id="toc" class="toc">
-   - Khung phong cách “tem nhãn”. Mục đích giúp nhảy nhanh tới các section.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   07. MAIN SECTION: TABLE OF CONTENTS (#toc)
+   ------------------------------------------------------------------------
+   Khung mục lục nằm trong hero để nhảy nhanh tới từng section.
+   ======================================================================== */
 /* Khung + tiêu đề */
 .toc{
   background:#fff;
@@ -355,6 +354,8 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
   left:50%;
   letter-spacing:.06em;
   line-height:1.1;
+  white-space:nowrap;
+  writing-mode:horizontal-tb;
   margin:0;
   padding:6px 72px;
   position:absolute;
@@ -420,10 +421,138 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
   pointer-events:none;          /* Không chặn click lên liên kết bên dưới */
 }
 
-/* =============================================================================
-   7) RANKING (lưới thẻ sản phẩm xếp hạng)
-   - Lưới 5 cột desktop; hover nổi nhẹ; hiển thị huy chương, ảnh, tên, hãng, giá.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   08. MAIN SECTION: PROFILE (#profile)
+   ------------------------------------------------------------------------
+   Thẻ giới thiệu chuyên gia trong khu vực lead.
+   ======================================================================== */
+#profileHost .profile-card{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  border:1px solid #eee;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+  padding:14px;
+  background:#fff;
+  margin-inline:calc(var(--card-pad) * -1);
+}
+#profileHost .p-left{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  text-align:center;
+}
+#profileHost .p-left img{
+  width:120px;
+  aspect-ratio:1 / 1;
+  object-fit:cover;
+  border-radius:50%;
+  border:1px solid #ddd;
+  display:block;
+  flex-shrink:0;
+}
+#profileHost .badge{
+  margin-top:8px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#1f2a44;
+  color:#fff;
+  font-weight:700;
+  padding:6px 18px;
+  border-radius:6px;
+  white-space:nowrap;
+  writing-mode:horizontal-tb;
+  text-orientation:mixed;
+  line-height:1;
+  box-sizing:border-box;
+  min-width:108px;
+}
+#profileHost .title{ margin:2px 0 4px; font-weight:700; }
+#profileHost .name{ margin:0 0 8px; font-size:22px; font-weight:800; }
+#profileHost .name .chev{ opacity:.6; }
+#profileHost .desc{
+  display:inline-block;
+  background:#fde7cf;
+  border:1px solid #f3c6a2;
+  border-radius:16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.06);
+  color:#333;
+  line-height:1.7;
+  padding:12px 16px;
+  position:relative;
+}
+#profileHost .desc::before,
+#profileHost .desc::after{
+  content:"";
+  position:absolute;
+  top:12px;
+  left:-16px;
+  border:8px solid transparent;
+}
+#profileHost .desc::before{ border-right-color:#f3c6a2; }
+#profileHost .desc::after{
+  left:-14px;
+  top:13px;
+  border:7px solid transparent;
+  border-right-color:#fde7cf;
+}
+#profileHost .link a{ font-weight:700; text-decoration:none; }
+
+@media (max-width:640px){
+  #profileHost .profile-card{
+    flex-direction:row !important;
+  }
+  #profileHost .p-left img{
+    width:84px;
+    height:84px;
+    object-fit:cover;
+  }
+  #profileHost .desc,
+  #profileHost .bubble{
+    width:100%;
+    margin-top:0;
+  }
+  .talk .name,
+  #profileHost .badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    white-space:nowrap;
+    writing-mode:horizontal-tb;
+    text-orientation:mixed;
+    line-height:1;
+    padding:6px 16px;
+    min-width:92px;
+    box-sizing:border-box;
+  }
+  .talk .name{
+    margin-top:0;
+    border-radius:6px;
+    background:#1f2a44;
+    color:#fff;
+    font-weight:700;
+  }
+  .talk{
+    column-gap:12px;
+    align-items:center;
+  }
+  .talk .speaker{ gap:6px; min-width:72px; }
+  .talk .avatar{
+    width:64px;
+    aspect-ratio:1 / 1;
+    height:auto;
+  }
+  .talk .balloon{ align-self:center; }
+}
+
+
+/* ========================================================================
+   09. MAIN SECTION: RANKING (#ranking)
+   ------------------------------------------------------------------------
+   Lưới thẻ sản phẩm xếp hạng, hiệu ứng hover, huy chương và hiển thị giá.
+   ======================================================================== */
 .rank-grid{ display:grid; gap:12px; grid-template-columns:repeat(5, minmax(0,1fr)); }
 .rank-card{
   background:#fff;
@@ -457,10 +586,11 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
 .rank-card .brand{ color:var(--muted); font-size:12px; }
 .rank-card .price{ color:#e23a3a; font-weight:800; }
 
-/* =============================================================================
-   8) BẢNG SO SÁNH (Compare)
-   - Có thead sticky; cột đầu cố định trong .table-host; hiển thị 〇/× cho tính năng.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   10. MAIN SECTION: COMPARE (#compare)
+   ------------------------------------------------------------------------
+   Bảng so sánh với thead sticky, cột cố định và biểu tượng 〇/× cho tính năng.
+   ======================================================================== */
 .compare-table{ border-collapse:collapse; min-width:700px; width:100%; }
 .compare-table th,
 .compare-table td{ border:1px solid var(--line); padding:10px; text-align:left; vertical-align:top; }
@@ -491,10 +621,12 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
 .compare-table tbody th{ text-align:left; }
 .compare-table tbody td{ text-align:center; }
 
-/* =============================================================================
-   9) LIST chi tiết (tuỳ chọn) – không bắt buộc có trong HTML
-   - Dùng dạng thẻ ngang: ảnh trái, nội dung phải, tag, mô tả, thông số nhanh.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   11. OPTIONAL: DETAIL LIST (nếu sử dụng)
+   ------------------------------------------------------------------------
+   Dạng thẻ ngang cho danh sách chi tiết; giữ tại đây dù HTML hiện tại
+   chưa dùng.
+   ======================================================================== */
 .detail-list{ display:grid; gap:16px; }
 .detail-card{
   background:#fff;
@@ -510,12 +642,11 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
 .tags{ display:flex; flex-wrap:wrap; gap:8px; }
 .tag{ background:#fde7cf; border-radius:8px; color:#333; font-size:12px; font-weight:700; padding:4px 8px; }
 
-/* =============================================================================
-   10) CAROUSEL chi tiết (#detailCarousel)
-   - Bố cục 2 cột [sân khấu ảnh+info | cột CTA] trên desktop.
-   - Ảnh có hiệu ứng xuất hiện (blur → rõ), mũi tên prev/next bám theo mép ảnh.
-   - Dots (nút tròn) để chọn slide; tag/spec hiển thị bên dưới ảnh.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   12. MAIN SECTION: DETAIL CAROUSEL (#detailCarousel)
+   ------------------------------------------------------------------------
+   Sân khấu sản phẩm, CTA, dots điều hướng và các thông số phụ.
+   ======================================================================== */
 .dc-wrap{
   display:grid;
   gap:10px;
@@ -693,9 +824,11 @@ text-align:justify;
 
 /* (dọn) nếu trước đây bạn có khối style #dcDots .pg-btn “前へ/次へ” thì xoá nó đi */
 
-/* =============================================================================
-   11) Bong bóng thoại (TALK) – note dưới carousel
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   13. SHARED COMPONENT: TALK BUBBLE (.talk)
+   ------------------------------------------------------------------------
+   Được sử dụng trong HOWTO, CAUTION, SUMMARY và các note khác.
+   ======================================================================== */
 .talk{
   display:grid;
   grid-template-columns:auto 1fr;
@@ -710,14 +843,19 @@ text-align:justify;
   align-items:center;
   gap:8px;
   margin:0;
+  min-width:80px;
+  text-align:center;
 }
 .talk .avatar{
   background:#fff;
   border:1px solid #e9e2d8;
   border-radius:50%;
-  height:68px;
-  width:68px;
+  width:72px;
+  aspect-ratio:1 / 1;
+  height:auto;
   object-fit:cover;
+  flex-shrink:0;
+  display:block;
 }
 .talk .name{
   margin:0;
@@ -727,7 +865,7 @@ text-align:justify;
   background:#1f2a44;
   color:#fff;
   font-weight:700;
-  padding:4px 12px;
+  padding:6px 16px;
   border-radius:6px;
   white-space:nowrap;           /* không xuống dòng => không “xếp dọc” */
   writing-mode:horizontal-tb;   /* ép hướng chữ nằm ngang */
@@ -765,10 +903,11 @@ text-align:justify;
 .talk .link a{ font-weight:700; text-decoration:none; }
 
 
-/* =============================================================================
-   12) Nút lên đầu trang (Back-to-top)
-   - Luôn nổi góc dưới phải, tránh đè nội dung bằng safe-area-bottom.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   14. BACK-TO-TOP BUTTON
+   ------------------------------------------------------------------------
+   Nút cố định ở góc dưới bên phải, bù safe-area trên thiết bị di động.
+   ======================================================================== */
 .backtotop{
   background:var(--accent);
   border-radius:50%;
@@ -784,10 +923,11 @@ text-align:justify;
   z-index:60;
 }
 
-/* =============================================================================
-   13) Footer quảng bá (Promo footer)
-   - Khung tím cuối trang, chứa tiêu đề + mô tả + bản quyền. Link giữ màu trắng.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   15. FOOTER PROMO (<footer>)
+   ------------------------------------------------------------------------
+   Khối quảng bá cuối trang với gradient tím và copy ngắn.
+   ======================================================================== */
 .promo-footer{
   background:linear-gradient(90deg,#6d76ff,#9f5aff);
   border-radius:0;
@@ -804,10 +944,11 @@ text-align:justify;
 .promo-footer a:hover{ text-decoration:underline; }
 @media (max-width:900px){ .promo-title{ font-size:18px; } }
 
-/* =============================================================================
-   14) Vỏ bảng cuộn (.table-host) bao quanh bảng so sánh
-   - Kích hoạt scroll ngang, cố định thead trong KHUNG (top:0), cố định cột đầu.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   16. UTILITY: TABLE HOST (BỌC #compare)
+   ------------------------------------------------------------------------
+   Khung scroll ngang giữ thead/cột đầu cố định cho bảng so sánh.
+   ======================================================================== */
 .table-host{
   -webkit-overflow-scrolling:touch;
   margin-inline:auto;
@@ -826,10 +967,11 @@ text-align:justify;
 .table-host .compare-table thead th:not(:first-child),
 .table-host .compare-table tbody td{ min-width:var(--compare-col-min); }
 
-/* =============================================================================
-   15) Chặn khoảng trắng/đè chồng không mong muốn + Section header xanh đồng bộ
-   - Gom các ghi đè (override) để chắc chắn UI khớp ảnh minh hoạ.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   17. GLOBAL OVERRIDES & SECTION HEADERS
+   ------------------------------------------------------------------------
+   Giữ consistency cho layout (grid content, header nền xanh, v.v.).
+   ======================================================================== */
 
 /* Dùng Grid & gap thay cho margin riêng lẻ của con */
 .content{ display:grid; gap:16px; }
@@ -888,10 +1030,11 @@ text-align:justify;
 #howto > h2,
 #caution > h2{ border-radius:var(--radius-lg) var(--radius-lg) 0 0; }
 
-/* =============================================================================
-   16) Lưới/ảnh/iframe tự co; chống tràn ngang; ngắt từ dài
-   - Bảo hiểm giao diện responsive.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   18. RESPONSIVE BASICS & MEDIA SAFEGUARDS
+   ------------------------------------------------------------------------
+   Chống tràn nội dung, đảm bảo ảnh/iframe tự co và danh sách chuẩn.
+   ======================================================================== */
 :where(.page, .content, .card, .rank-grid, .dc-wrap, .dc-stage, .table-host, .compare-table, .toc, .promo-footer__inner):not(.avatar){ min-width:0; }
 :where(img, svg, video, iframe, html, body):not(.avatar){ max-width:100%; height:auto; display:block; }
 h1, h2, h3, p, li, .col-name, .jp-lead, .tag{ overflow-wrap:anywhere; word-break:break-word; }
@@ -953,10 +1096,11 @@ h1, h2, h3, p, li, .col-name, .jp-lead, .tag{ overflow-wrap:anywhere; word-break
 @media (max-width:900px){ :root{ --compare-col-min:140px; } }
 @media (max-width:640px){ :root{ --compare-col-min:120px; } }
 
-/* =============================================================================
-   17) NAV mobile (hamburger) & Drawer
-   - Khi <=900px: hiển thị nút ☰, menu trượt xuống; backdrop tối nền.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   19. RESPONSIVE: HEADER & NAV (≤900px)
+   ------------------------------------------------------------------------
+   Nút hamburger, drawer menu và tinh chỉnh layout khi màn hình thu hẹp.
+   ======================================================================== */
 @media (max-width:900px){
   /* Bật layout 1 cột; ẩn side-nav nếu có */
   .page{ gap:12px; grid-template-columns:1fr; justify-content:stretch; padding-block:8px 16px; }
@@ -1033,14 +1177,19 @@ h1, h2, h3, p, li, .col-name, .jp-lead, .tag{ overflow-wrap:anywhere; word-break
   }
 }
 
-/* =============================================================================
-   18) Ghi chú từ vựng (EN→VI) cho dev
-   - viewport: khung nhìn trình duyệt; sticky: dính theo cuộn; drawer: menu trượt.
-   - safe-area-inset: vùng an toàn (tai thỏ iPhone); overflow: tràn nội dung.
-   - aspect-ratio: tỉ lệ khung hình; object-fit: cách ảnh lấp đầy khung.
-   ----------------------------------------------------------------------------- */
+/* ========================================================================
+   20. DEV NOTES (glossary nhanh)
+   ------------------------------------------------------------------------
+   viewport = khung nhìn; sticky = bám theo cuộn; drawer = menu trượt;
+   safe-area-inset = vùng an toàn; aspect-ratio/object-fit = tỉ lệ & cách
+   ảnh lấp khung. Để lại tham chiếu cho người giữ dự án sau này.
+   ======================================================================== */
 
-/* 19)  === Căn bề ngang các section chính trong #lead bằng vùng chữ phía trên === */
+/* ========================================================================
+   21. ALIGN SECTION WIDTHS INSIDE #lead
+   ------------------------------------------------------------------------
+   Đảm bảo các section con có cùng mép với phần văn dẫn phía trên.
+   ======================================================================== */
 
 #lead :is(#ranking, #compare, #detailCarousel, #howto, #caution, #summary,#profile,.last-updated){
   margin-left:1em;   /* cùng “biên trái” với p.jp-lead */
@@ -1119,102 +1268,6 @@ h1, h2, h3, p, li, .col-name, .jp-lead, .tag{ overflow-wrap:anywhere; word-break
     display: none !important;
   }
 }
-/* =============================================================================
-   19) 自己紹介 (Profile Card)
-   - Thẻ giới thiệu tác giả, chuyên gia với ảnh tròn, ruy-băng, tên, mô tả, link. 
-
-   ----------------------------------------------------------------------------- */
-/* Profile card trong #profileHost */
-#profileHost .profile-card{
-  display:flex;
-  gap:14px;
-  align-items:flex-start;
-  border:1px solid #eee;
-  border-radius:0 0 var(--radius-lg) var(--radius-lg);
-  padding:14px;
-  background:#fff;
-  margin-inline:calc(var(--card-pad) * -1);
-}
-#profileHost .p-left{ text-align:center; }
-#profileHost .p-left img{
-  width:120px; height:120px; object-fit:cover; border-radius:50%; border:1px solid #ddd;
-}
-#profileHost .badge{
-  margin-top:8px; display:inline-block; background:#1f2a44; color:#fff;
-  font-weight:700; padding:4px 12px; border-radius:6px;
-}
-#profileHost .title{ margin:2px 0 4px; font-weight:700; }
-#profileHost .name{ margin:0 0 8px; font-size:22px; font-weight:800; }
-#profileHost .name .chev{ opacity:.6; }
-#profileHost .desc{
-  display:inline-block;
-  background:#fde7cf;
-  border:1px solid #f3c6a2;
-  border-radius:16px;
-  box-shadow:0 8px 22px rgba(0,0,0,.06);
-  color:#333;
-  line-height:1.7;
-  padding:12px 16px;
-  position:relative;
-}
-/* vẽ “đuôi” bên trái */
-#profileHost .desc::before,
-#profileHost .desc::after{
-  content:""; position:absolute; top:12px; left:-16px;
-  border:8px solid transparent;
-}
-#profileHost .desc::before{ border-right-color:#f3c6a2; }
-#profileHost .desc::after { left:-14px; top:13px; border:7px solid transparent; border-right-color:#fde7cf; }
-
-#profileHost .link a{ font-weight:700; text-decoration:none; }
-
-@media (max-width:640px){
-   #profileHost .profile-card { 
-    flex-direction: row !important;   /* khóa lại theo hàng ngang */
-  }
-  #profileHost .p-left img { 
-    width: 84px; 
-    height: 84px; 
-    object-fit: cover;
-  }
-  #profileHost .desc, 
-  #profileHost .bubble {              /* nếu bạn dùng class bubble cho lời giới thiệu */
-    width: 100%;
-    margin-top: 0;
-  }
-   .talk .name,
-  #profileHost .badge{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    white-space:nowrap;              /* không xuống dòng */
-    writing-mode:horizontal-tb;      /* ép chữ nằm ngang */
-    text-orientation:mixed;
-    line-height:1;
-    width:max-content;
-  }
-
-  /* (tuỳ chọn) style badge ở .talk – nền xanh đậm */
-  .talk .name{
-    margin-top:0;
-    padding:4px 12px;
-    border-radius:6px;
-    background:#1f2a44;
-    color:#fff;                      /* đổi #000 nếu muốn chữ đen */
-    font-weight:700;
-  }
-
-  .talk{
-    column-gap:12px;
-    align-items:center;
-  }
-  .talk .speaker{ gap:6px; }
-  .talk .avatar{ width:64px; height:64px; }
-  .talk .balloon{ align-self:center; }
-}
-
-
-
 @media (max-width:640px){
   #lead.card{
     padding:0 !important;
