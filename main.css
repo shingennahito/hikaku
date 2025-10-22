@@ -1,0 +1,1279 @@
+
+ 
+/* =============================================================================
+   0) Biến toàn cục (CSS Variables)
+   Mục đích: định nghĩa màu sắc, kích thước, bóng đổ, bo góc… để mọi thành phần
+   dùng chung. Thay đổi ở đây sẽ lan tỏa toàn site.
+   - --header-h / --header-safe: chiều cao header và phần bù cho tai thỏ (safe-area)
+   - --compare-* : các tham số cho bảng so sánh (cột cố định, số cột hiển thị…)
+   - --content-max / --side-width: layout 2 cột cho desktop
+   ----------------------------------------------------------------------------- */
+:root{
+  
+  /* Màu & nền cơ bản */
+  --card:#fff;                 /* Nền thẻ/card trắng */
+  --ink:#1f2a44;               /* Màu chữ chính */
+  --line:#e6ecf4;              /* Màu viền/đường phân chia */
+  --muted:#6b7a99;             /* Chữ phụ */
+  --bg:#f5f7fb;                /* Màu nền tổng thể */
+  --accent:#4211be;            /* Màu nhấn (liên kết, nút ↑) */
+
+  /* Gradient cho “chip”, hình tròn nhỏ nhấn */
+  --chip-grad-1:#ff7edb;
+  --chip-grad-2:#ff49ad;
+
+  /* Kích thước header co giãn theo viewport (viewport = khung nhìn) */
+  --h-max:64px;                /* Chiều cao tối đa */
+  --h-min:48px;                /* Chiều cao tối thiểu */
+  --header-h: clamp(var(--h-min), 9vw, var(--h-max));
+  --header-safe: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+
+  /* Bóng đổ (shadow) cho header/card/hero */
+  --shadow-card: 0 0px 4px rgba(17,20,45,.06);
+  --shadow-header: 0 6px 24px rgba(0,0,0,.08);
+  --shadow-hero: 0 16px 40px rgba(17,20,45,.16);
+
+  /* Bo góc (border-radius) chuẩn toàn site */
+  --radius-lg: 12px;
+  --card-pad: 16px;
+
+  /* Đệm phía trên trang (nếu cần bù khoảng trống) */
+  --page-pad-top: 0px;
+  --header-stack-offset: 80px;  /* Bù thêm vì header có 2 hàng (title + nav) */
+
+  /* Tham số bảng so sánh (compare) */
+  --compare-fixed-col: 160px;  /* Rộng cột đầu “項目” */
+  --compare-visible-cols: 5;   /* Số cột sản phẩm thấy ngay trên desktop */
+  --compare-col-min: 150px;    /* Rộng tối thiểu mỗi cột sản phẩm */
+
+  /* Layout desktop: cột nội dung + cột phải (side) */
+  --content-max: 900px;        /* Max-width nội dung chính */
+  --side-width: 220px;         /* Rộng cột bên phải */
+}
+
+/* =============================================================================
+   1) Reset & cơ bản (Base)
+   Mục đích: đặt lại hành vi mặc định trình duyệt + kiểu chữ/nền/link chung.
+   - Lưu ý: không đổi selector, chỉ mô tả bằng tiếng Việt.
+   ----------------------------------------------------------------------------- */
+*{ box-sizing:border-box; }
+html, body{ height:100%; }
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",Arial,sans-serif;
+  margin:0;
+}
+a{ color:var(--accent); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
+
+/* Khung căn giữa nội dung theo chiều ngang (dùng cho header/section) */
+.wrap{ margin-inline:auto; max-width:2000px; padding-inline:16px; }
+
+/* Chặn hiện tượng “sập margin” (margin-collapsing) của phần tử đầu */
+.content{ display:flow-root; }
+.content > :first-child{ margin-block-start:0; }
+
+/* =============================================================================
+   2) HEADER + NAV chính
+   Khớp với <header class="site-header"> trong HTML.
+   - Header dùng nền gradient, cố định (fixed) để luôn hiện khi cuộn.
+   - Nav desktop hiển thị ngang; mobile có nút ☰ và backdrop.
+   ----------------------------------------------------------------------------- */
+.site-header{
+  background:linear-gradient(90deg,#6d76ff,#9f5aff);
+  box-shadow:var(--shadow-header);
+  color:#fff;
+  padding-top:env(safe-area-inset-top, 0);
+  position:fixed; /* Ghi đè: luôn cố định trên cùng */
+  top:0; left:0; right:0;
+  z-index:1000;
+}
+.site-header .wrap{
+  align-items:center;
+  display:flex;
+  gap:12px;
+  justify-content:space-between;
+  padding:12px 16px;
+  min-height:var(--header-h); /* Đảm bảo chiều cao tối thiểu */
+}
+
+
+
+/* Điều khiển nav mobile (nút ☰, checkbox toggle, nền mờ) */
+.menu-btn{ display:none; }
+.nav-toggle{ display:none; }
+.menu-backdrop{ display:none; }
+
+/* Sau header cố định: đẩy nội dung xuống tránh bị che */
+.site-header + .page{
+  margin-top:0 !important;
+  padding-top:calc(var(--header-safe) + var(--header-stack-offset)) !important;
+}
+/* ===== Layout 3 cột: [trái | giữa | phải] để giữ tiêu đề ở đúng giữa ===== */
+.site-header .wrap{
+  display:grid;                          /* Bật Grid cho header */
+  grid-template-columns: 1fr auto 1fr;   /* 3 cột: trái / giữa / phải */
+  align-items:center;
+  gap:12px;
+}
+
+/* ===== Tiêu đề trung tâm ===== */
+.brand-block{
+  grid-column:2;            /* Đặt vào cột giữa */
+  justify-self:center;      /* Căn giữa theo ngang */
+  text-align:center;
+  line-height:1.15;
+}
+.brand-eyebrow{
+  /* Dòng nhỏ theo yêu cầu */
+  
+  font-size:12px;           /* Nhỏ */
+  font-weight:700;          /* Đậm vừa */
+  color:#ffffff;            /* Gợi nhớ accent mybest; đổi được tùy brand */
+  letter-spacing:.04em;
+}
+.brand-headline{
+  /* Dòng lớn theo yêu cầu */
+  display:inline-block;
+  margin-top:4px;
+  font-size:clamp(20px, 3.8vw, 30px); /* Tự co giãn theo viewport */
+  font-weight:900;
+  color:#f8f5f5;               /* Nếu header nền tối, đổi sang #fff */
+  text-decoration:none;
+  letter-spacing:.01em;
+}
+
+/* ===== Menu chip bo tròn (góc phải) ===== */
+.top-nav{
+  grid-column:2;
+  justify-self:center;
+  align-self:center;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.top-nav a{
+
+  appearance:none;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:14px;
+  line-height:1;
+  padding:10px 18px;
+  border-radius:12px;
+  border:1px solid #dfe3ef;
+  background:#f5f7fc;
+  color:#1f2a44;
+  box-shadow:0 1px 3px rgba(28,42,65,.08);
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+}
+/* Loại bỏ mọi “>” thêm bằng CSS cũ */
+.top-nav a::after{ content:none !important; }
+
+.top-nav a:hover{
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
+  border-color:#cdd3e0;
+  background:#f9fafc;
+}
+
+/* ===== Responsive (≤ 900px) ===== */
+@media (max-width:900px){
+  :root{ --header-stack-offset: 32px; }
+  .site-header .wrap{
+    grid-template-columns: 1fr auto;  /* [tiêu đề | nút ☰] */
+  }
+  .brand-block{
+    grid-column:1;
+    justify-self:start;               /* Đưa tiêu đề về trái cho dễ đọc */
+    text-align:left;
+  }
+  .brand-headline{ font-size:clamp(18px, 5vw, 24px); }
+  .brand-eyebrow { font-size:11px; }
+
+  /* Khi menu xổ dọc trên mobile, cứ để chip hiển thị kiểu thẻ */
+  .top-nav{
+    grid-column:1 / -1;
+    justify-self:stretch;
+    gap:8px;
+    margin-top:10px;
+  }
+  .top-nav a{
+    width:auto;                       /* Không full-width để giữ cảm giác chip */
+    border-radius:14px;               /* Bo vừa phải hơn trên mobile */
+  }
+}
+
+/* Ẩn .brand cũ nếu còn */
+.brand{ display:none; }
+/* Dòng "YYYY年MM月DD日更新" – xám nhạt, nhỏ, căn giữa */
+.last-updated{
+  
+  text-align:right;      /* căn giữa (中心ぞろえ) */
+  color:#9aa3af;          /* xám nhạt giống ảnh */
+  font-size:13px;         /* cỡ nhỏ */
+  line-height:1.6;
+  margin:8px 0 0;         /* khoảng cách phía trên */
+  letter-spacing:.02em;   /* nới nhẹ khoảng chữ */
+}
+
+
+/* =============================================================================
+   3) LAYOUT trang (grid chính)
+   - Mặc định 1 cột (nội dung). Khi có .side-nav → 2 cột.
+   - Giữa trang theo chiều ngang.
+   ----------------------------------------------------------------------------- */
+.page{
+  align-items:start;
+  display:grid;
+  grid-template-columns:minmax(0, var(--content-max));
+  justify-content:center;
+  gap:16px;
+  padding-block:var(--page-pad-top) 20px;
+}
+.page:has(.side-nav){ grid-template-columns:minmax(0, var(--content-max)) var(--side-width); }
+.content{ grid-column:1; }
+.side-nav{ grid-column:2; }
+
+/* =============================================================================
+   4) THẺ/Card, SECTION, kiểu chữ chung
+   - Dùng lại cho tất cả khu vực: ranking, compare, carousel…
+   ----------------------------------------------------------------------------- */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-card);
+  padding:var(--card-pad);
+}
+.section h2{
+  font-size:24px;
+  margin:0 0 12px;
+  position:relative;
+}
+
+.section h2::before{   content:"\00a0";}
+#profile > h2::before{ content:""; }
+
+/* Văn dẫn (lead) + nhấn (highlight) */
+.jp-lead{ color:#000000; line-height:2.5; margin:0 0 3em; }
+.hl{
+  font-weight:800; text-decoration-color:#f00d05; text-decoration-line:underline; text-decoration-thickness:.18em; text-underline-offset:.18em; 
+}
+.u-strong{ font-weight:800; text-decoration-color:#f3c6a2; text-decoration-line:underline; text-decoration-thickness:.18em; text-underline-offset:.18em; }
+
+/* =============================================================================
+   5) LEAD/HERO (ảnh đầu bài)
+   - Giữ tỉ lệ 16:9, ảnh che phủ (object-fit: cover), badge tùy chọn.
+   - Các anchor (#id) khi cuộn tới sẽ trừ độ cao header (scroll-margin-top).
+   ----------------------------------------------------------------------------- */
+.hero{ aspect-ratio:16 / 9; box-shadow:var(--shadow-hero); overflow:hidden; position:relative; }
+.hero.card{ border-radius:var(--radius-lg); overflow:hidden; padding:0; }
+.hero.card img{ display:block; height:100%; object-fit:cover; width:100%; }
+.hero-badge{
+  background:#5f169b;
+  border-radius:999px;
+  box-shadow:0 6px 16px rgba(0,0,0,.18);
+  color:#fff;
+  font-weight:700;
+  padding:6px 10px;
+  position:absolute;
+  right:12px;
+  top:12px;
+}
+.section, .hero, .lead{ scroll-margin-top:calc(var(--header-h) + 8px); }
+
+/* Khối văn dẫn căn đều hai bên cho tiếng Nhật */
+.jp-lead-block{
+  text-align:left;
+  --title-hang:1em;
+  --lead-right:2em;
+}
+.jp-lead-block h1.jp-lead,
+.jp-lead-block h2.jp-lead{
+  padding-left:.5em;           /* mép trái khớp p.jp-lead */
+  padding-right:1em;           /* mép phải khớp p.jp-lead */
+  margin:0 0 1em;              /* cách dưới 1em */
+  line-height:1.2;
+}
+.jp-lead-block p.jp-lead{
+  padding-left:var(--title-hang);
+  padding-right:var(--lead-right);
+  margin:0 0 .5em;
+  line-height:1.5;
+  text-align:justify;
+  text-justify:inter-ideograph;
+}
+.jp-lead-block p.jp-lead:last-child{ margin-bottom:0; }
+@media (max-width:640px){
+  :root{ --header-stack-offset: 24px; }
+  .jp-lead-block{
+    padding-inline:clamp(16px, 5vw, 22px);
+    --title-hang:0;
+    --lead-right:0;
+  }
+  .jp-lead-block h1.jp-lead,
+  .jp-lead-block h2.jp-lead{
+    padding-left:0;
+    padding-right:0;
+    line-height:1.25;
+  }
+  .jp-lead-block p.jp-lead{
+    padding-left:0;
+    padding-right:0;
+  }
+}
+
+/* =============================================================================
+   6) TOC (Mục lục) – <nav id="toc" class="toc">
+   - Khung phong cách “tem nhãn”. Mục đích giúp nhảy nhanh tới các section.
+   ----------------------------------------------------------------------------- */
+/* Khung + tiêu đề */
+.toc{
+  background:#fff;
+  border:2px solid #e0c176;
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(231,102,102,.05);
+  margin-bottom:4px;
+  padding:26px 14px 14px;
+  padding-top:48px;              /* tăng để h2 không đè nội dung */
+  position:relative;
+}
+.toc h2{
+  background:linear-gradient(180deg,#b23a48 0%,#8d1023 100%);
+  border:2px solid #e0c176;
+  border-radius:999px;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  left:50%;
+  letter-spacing:.06em;
+  line-height:1.1;
+  margin:0;
+  padding:6px 72px;
+  position:absolute;
+  top:-20px;
+  transform:translateX(-50%);
+  z-index:1;                     /* đảm bảo nổi trên khung */
+}
+
+/* Danh sách */
+.toc ul{
+  display:grid;
+  gap:5px;
+  list-style:none;
+  margin:-20px 0 0;
+  padding:2px;
+}
+.toc li{
+  padding:10px 36px 12px 12px;   /* chừa chỗ cho icon bên phải */
+  position:relative;
+}
+
+/* GẠCH DƯỚI: chuyển sang ::before để không đè lên icon */
+.toc li::before{
+  content:"";
+  position:absolute;
+  left:12px;                     /* khớp với padding-left */
+  right:36px;                    /* khớp với padding-right (chừa chỗ icon) */
+  bottom:6px;
+  height:2px;
+  background:currentColor;
+  opacity:.15;                   /* nhẹ nhàng, không quá đậm */
+}
+
+/* LINK */
+.toc li a{
+  color:#333;
+  font-weight:600;
+  text-decoration:none;
+  display:block;                 /* tránh text tràn dưới icon */
+}
+.toc li a:hover{
+  color:#8d1023;
+  text-decoration:none;          /* giữ underline do ::before, không dùng text-decoration */
+}
+
+/* ICON MŨI TÊN: giữ ở ::after */
+.toc li::after{
+  content:"›";
+  position:absolute;
+  right:30px;
+  top:65%;
+  transform:translateY(-100%);
+  display:grid;
+  place-items:center;
+  width:22px;
+  height:22px;
+  background:#c03248;
+  color:#fff;
+  border-radius:50%;
+  box-shadow:0 6px 14px rgba(120,120,120,.45);
+  font-weight:900;
+  line-height:1;
+  pointer-events:none;          /* Không chặn click lên liên kết bên dưới */
+}
+
+/* =============================================================================
+   7) RANKING (lưới thẻ sản phẩm xếp hạng)
+   - Lưới 5 cột desktop; hover nổi nhẹ; hiển thị huy chương, ảnh, tên, hãng, giá.
+   ----------------------------------------------------------------------------- */
+.rank-grid{ display:grid; gap:12px; grid-template-columns:repeat(5, minmax(0,1fr)); }
+.rank-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,.05);
+  color:inherit;
+  display:grid;
+  gap:8px;
+  overflow:hidden;
+  padding:10px;
+  text-align:center;
+  text-decoration:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.rank-card:hover,
+.rank-card:focus-visible{ box-shadow:0 16px 40px rgba(17,20,45,.16); transform:translateY(-6px); }
+.rank-card:active{ transform:translateY(-2px); }
+.rank-card[aria-disabled="true"]{ cursor:default; pointer-events:none; }
+.rank-card .medal{ color:#000; font-weight:800; }
+.rank-card .medal{ display:flex; align-items:center; justify-content:center; gap:5px; }
+.rank-card .medal .crown{
+  display:inline-block;
+  width:24px;
+  height:auto;
+  margin-left:0;
+  filter:drop-shadow(0 0 2px rgba(0,0,0,.35));
+}
+.rank-card img{ aspect-ratio:1/1; border-radius:8px; object-fit:cover; width:100%; }
+.rank-card .name{ color:#333; font-weight:700; }
+.rank-card .brand{ color:var(--muted); font-size:12px; }
+.rank-card .price{ color:#e23a3a; font-weight:800; }
+
+/* =============================================================================
+   8) BẢNG SO SÁNH (Compare)
+   - Có thead sticky; cột đầu cố định trong .table-host; hiển thị 〇/× cho tính năng.
+   ----------------------------------------------------------------------------- */
+.compare-table{ border-collapse:collapse; min-width:700px; width:100%; }
+.compare-table th,
+.compare-table td{ border:1px solid var(--line); padding:10px; text-align:left; vertical-align:top; }
+.compare-table thead th{ background:#f8f8f8; position:sticky; top:var(--header-safe); z-index:1; }
+.compare-table th:first-child{ width:160px; }
+.col-head{ align-items:center; display:grid; gap:8px; grid-template-columns:64px 1fr; }
+.col-head img{ border-radius:7px; height:50px; object-fit:cover; width:50px; }
+.compare-table th,
+.compare-table td{ font-size:14px; line-height:1.6; }
+.compare-table th{ color:#333; font-weight:700; }
+.compare-table td{ color:#555; }
+.compare-table tbody tr:nth-child(odd){ background:#fafafa; }
+
+/* Dấu 〇/× cho tính năng (yes/no) */
+.compare-table td.yes,
+.compare-table td.no{ font-size:20px; font-weight:900px; text-align:center; }
+.compare-table td.yes::before{ color:#1a7f37; content:"〇"; }
+.compare-table td.no::before{ color:#d83a3a; content:"X"; }
+
+/* Đầu cột kiểu dọc (ảnh + tên) */
+.compare-table .col-head.vertical{ align-items:center; display:flex; flex-direction:column; gap:6px; text-align:center; }
+.compare-table .col-head.vertical img{ border-radius:6px; height:64px; object-fit:cover; width:64px; }
+
+/* Link tên cột, giá */
+.compare-table .col-name{ color:var(--ink); font-weight:700; line-height:1.3; text-decoration:none; }
+.compare-table .col-name:hover{ color:var(--accent); text-decoration:underline; }
+.compare-table .col-price{ color:#e23a3a; font-weight:800; margin-top:4px; }
+.compare-table tbody th{ text-align:left; }
+.compare-table tbody td{ text-align:center; }
+
+/* =============================================================================
+   9) LIST chi tiết (tuỳ chọn) – không bắt buộc có trong HTML
+   - Dùng dạng thẻ ngang: ảnh trái, nội dung phải, tag, mô tả, thông số nhanh.
+   ----------------------------------------------------------------------------- */
+.detail-list{ display:grid; gap:16px; }
+.detail-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  display:grid;
+  gap:12px;
+  grid-template-columns:200px 1fr;
+  padding:12px;
+}
+.detail-card img{ border-radius:8px; height:200px; object-fit:cover; width:200px; }
+.detail-card h3{ font-size:18px; margin:0; }
+.tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.tag{ background:#fde7cf; border-radius:8px; color:#333; font-size:12px; font-weight:700; padding:4px 8px; }
+
+/* =============================================================================
+   10) CAROUSEL chi tiết (#detailCarousel)
+   - Bố cục 2 cột [sân khấu ảnh+info | cột CTA] trên desktop.
+   - Ảnh có hiệu ứng xuất hiện (blur → rõ), mũi tên prev/next bám theo mép ảnh.
+   - Dots (nút tròn) để chọn slide; tag/spec hiển thị bên dưới ảnh.
+   ----------------------------------------------------------------------------- */
+.dc-wrap{
+  display:grid;
+  gap:10px;
+  grid-template-columns:1fr 220px;
+  max-width:calc(var(--content-max) + var(--side-width) + 16px);
+  margin:0 auto;
+  padding:16px 0;
+  position:relative;
+  overflow:visible;
+}
+.dc-stage{
+  display:grid;
+  gap:12px;
+  margin:0;
+  padding:0;
+  position:relative;
+  
+}
+
+/* Huy hiệu hạng (rank) – đưa ra ngoài ảnh (không overlay) */
+.dc-rank{
+  align-self:start;
+  background:#e23a3a;
+  border-radius:999px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  justify-self:start;
+  margin:4px 0 8px 6px;
+  padding:4px 24px;
+  position:static !important;
+}
+
+/* Ảnh chính có hiệu ứng mờ → rõ với transform nhẹ */
+.dc-stage img{
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:var(--shadow-hero);
+  display:block;
+  height:600px;
+  object-fit:cover;
+  opacity:1;
+  transition:opacity .25s ease;
+  width:600px;
+  justify-self:center;       /* Giữ ảnh cố định ở giữa sân khấu */
+  margin-inline:auto;
+}
+#dcImg{
+  
+  transition:opacity .6s ease, transform .7s cubic-bezier(.2,.65,.2,1), filter .7s ease;
+  filter:blur(8px) saturate(.95);
+  aspect-ratio:1/1;
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:var(--shadow-hero);
+  object-fit:cover;
+  opacity:0;
+  transform:scale(1.04);
+}
+#dcImg[style*="opacity: 1"]{ filter:blur(0) saturate(1); opacity:1; transform:scale(1); }
+.dc-stage{ position:relative; }
+.dc-stage::after{
+  background:linear-gradient(120deg, transparent 35%, rgba(255,255,255,.34) 50%, transparent 65%);
+  border-radius:12px;
+  content:"";
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+  position:absolute;
+  transform:translateX(-120%);
+}
+.dc-stage:has(#dcImg[style*="opacity: 1"])::after{ animation:dcShine .9s ease; }
+@keyframes dcShine{
+  0%{ transform:translateX(-120%); opacity:0; }
+  15%{ opacity:.35; }
+  100%{ transform:translateX(120%); opacity:0; }
+}
+/* Thông tin sản phẩm bên phải ảnh */
+
+
+/* Tiêu đề + mô tả trong sân khấu */
+.dc-info h3{  font-size:18px;
+  margin:0;
+  text-align:justify;
+  text-justify:inter-ideograph; }
+
+.dc-intro{
+  font-size:15px;
+  margin:0;
+  text-align:justify;
+          
+  text-justify:inter-ideograph;
+}
+
+.dc-name{ font-size:30px; font-weight:700; margin:0;
+text-align:justify;
+          
+  text-justify:inter-ideograph; }
+
+/* Cột CTA (nút tới trang chính thức) */
+.dc-side, .dc-meta{ align-content:start; display:grid; gap:10px; }
+.dc-pricebox{ display:grid; gap:10px; justify-items:center; justify-self:center; }
+.dc-btn, .btn-cta{
+  background:#1fb954;
+  border:1px solid #1e7f34;
+  border-radius:10px;
+  box-shadow:0 8px 18px rgba(31,185,84,.25);
+  color:#fff;
+  display:block;
+  font-weight:800;
+  padding:22px 48px;
+  text-align:center;
+  text-decoration:none;
+}
+.dc-btn:hover, .btn-cta:hover{ filter:brightness(1.05); text-decoration:none; }
+@media (min-width:768px){
+  .dc-btn, .btn-cta{ padding:14px 40px; }
+}
+/* Đưa cụm CTA xuống dưới sân khấu và căn giữa (phù hợp ảnh minh họa) */
+#detailCarousel .dc-meta{ grid-column:1 / -1; justify-self:center; }
+#detailCarousel .dc-pricebox{ margin-top:12px !important; justify-items:center; }
+#detailCarousel .dc-btn{ max-width:220px; width:100%; }
+/* Ẩn mũi tên prev/next trong carousel */
+/* 1) Chi tiết sản phẩm = 1 card gọn, căn giữa toàn bộ */
+#detailCarousel .dc-wrap{
+  grid-template-columns:1fr !important;  /* luôn 1 cột, không để cột phải trống */
+  justify-items:center;                   /* căn giữa khung */
+}
+/* Card bao toàn bộ 1 sản phẩm (ảnh + text) */
+#detailCarousel .dc-stage{
+   background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:var(--shadow-card);
+  padding:12px;
+  width:calc(100% + var(--card-pad) * 2);   /* mở rộng bằng với card cha */
+  margin-inline:calc(var(--card-pad) * -1); /* “ăn Era padding cha */
+  max-width:none;
+  
+}
+
+
+#dcTrack > .dc-stage:first-child{
+  border-top-left-radius:0;
+  border-top-right-radius:0;
+  margin-top:0;
+  margin-inline:calc(var(--card-pad) * -1);
+  padding-inline:calc(var(--card-pad) + 12px);
+}
+
+/* Ẩn viền & bóng khối ngay dưới "各カタログの詳細" mà KHÔNG đổi bố cục */
+#detailCarousel.section.card{
+  border-color: transparent !important;  /* giữ 1px border nhưng không nhìn thấy */
+  box-shadow: none !important;           /* tắt bóng */
+}
+
+/* Các card trong 「各カタログの詳細」 xếp dọc, CĂN GIỮA và CÓ KHOẢNG CÁCH */
+#dcTrack{
+  display: grid;
+  grid-template-columns: 1fr;   /* 1 cột, dọc */
+  gap: 24px;                    /* ↑ khoảng cách giữa mỗi ô (tăng/giảm tùy ý) */
+  justify-items: center;        /* căn giữa ô theo trục ngang */
+  transform: none !important;   /* vô hiệu translateX cũ (nếu có) */
+}
+
+@media (max-width:640px){
+  .dc-nav.next.edge{ width:48px; height:96px; }
+  #dcTrack .dc-img{ width:100%; height:100%; aspect-ratio:1/1; object-fit:cover; }
+ 
+  
+}
+
+/* (dọn) nếu trước đây bạn có khối style #dcDots .pg-btn “前へ/次へ” thì xoá nó đi */
+
+/* =============================================================================
+   11) Bong bóng thoại (TALK) – note dưới carousel
+   ----------------------------------------------------------------------------- */
+.talk{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  grid-template-rows:auto auto;
+  column-gap:14px;
+  row-gap:12px;
+  align-items:center;
+  margin-top:16px;
+}
+.talk .speaker{ display:contents; }
+.talk .avatar{
+  background:#fff;
+  border:1px solid #e9e2d8;
+  border-radius:50%;
+  height:68px;
+  width:68px;
+  object-fit:cover;
+  justify-self:center;
+  grid-row:1;
+}
+.talk .name{
+  grid-column:1;
+  grid-row:2;
+  margin:0;
+  display:inline-flex;          /* giữ trên 1 hàng, canh giữa đẹp hơn inline-block */
+  align-items:center;
+  justify-content:center;
+  background:#1f2a44;
+  color:#fff;
+  font-weight:500;
+  padding:4px 12px;
+  border-radius:6px;
+  white-space:nowrap;           /* không xuống dòng => không “xếp dọc” */
+  writing-mode:horizontal-tb;   /* ép hướng chữ nằm ngang */
+  line-height:1;
+}
+.talk .balloon{
+  display:inline-block;
+  align-self:center;
+  background:#fde7cf;
+  border:1px solid #f3c6a2;
+  border-radius:16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.06);
+  color:#333;
+  line-height:1.7;
+  padding:12px 16px;
+  position:relative;
+}
+.talk .balloon::before,
+.talk .balloon::after{
+  content:"";
+  position:absolute;
+  top:40%;
+  left:-16px;
+  border:8px solid transparent;
+  transform:translateY(-50%);
+}
+.talk .balloon::before{ border-right-color:#f3c6a2; }
+.talk .balloon::after{
+  left:-14px;
+  border-width:7px;
+  border-right-color:#fde7cf;
+}
+
+.talk .link a{ font-weight:700; text-decoration:none; }
+
+
+/* =============================================================================
+   12) Nút lên đầu trang (Back-to-top)
+   - Luôn nổi góc dưới phải, tránh đè nội dung bằng safe-area-bottom.
+   ----------------------------------------------------------------------------- */
+.backtotop{
+  background:var(--accent);
+  border-radius:50%;
+  bottom:calc(env(safe-area-inset-bottom, 0) + 18px);
+  box-shadow:0 12px 28px rgba(3,73,6,.4);
+  color:#ffffff;
+  display:grid;
+  height:44px;
+  place-items:center;
+  position:fixed;
+  right:18px;
+  width:44px;
+  z-index:60;
+}
+
+/* =============================================================================
+   13) Footer quảng bá (Promo footer)
+   - Khung tím cuối trang, chứa tiêu đề + mô tả + bản quyền. Link giữ màu trắng.
+   ----------------------------------------------------------------------------- */
+.promo-footer{
+  background:linear-gradient(90deg,#6d76ff,#9f5aff);
+  border-radius:0;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+  color:#fff;
+  margin-top:24px;
+  padding-bottom:6px;
+}
+.promo-footer__inner{ margin:0 auto; max-width:var(--content-max); padding:18px 16px; text-align:center; }
+.promo-eyebrow{ font-size:12px; margin:0 0 6px; opacity:.9; }
+.promo-title{ font-size:20px; font-weight:800; letter-spacing:.02em; margin:0; }
+.promo-copy{ font-size:12px; margin:6px 0 0; opacity:.9; }
+.promo-footer a{ color:#fff; text-decoration:none; }
+.promo-footer a:hover{ text-decoration:underline; }
+@media (max-width:900px){ .promo-title{ font-size:18px; } }
+
+/* =============================================================================
+   14) Vỏ bảng cuộn (.table-host) bao quanh bảng so sánh
+   - Kích hoạt scroll ngang, cố định thead trong KHUNG (top:0), cố định cột đầu.
+   ----------------------------------------------------------------------------- */
+.table-host{
+  -webkit-overflow-scrolling:touch;
+  margin-inline:auto;
+  max-width:calc(var(--compare-fixed-col) + var(--compare-visible-cols) * var(--compare-col-min));
+  overflow-x:auto;
+  overflow-y:hidden;
+  position:relative;
+}
+.table-host-inner{ width:max-content; }
+.table-host .compare-table{ border-spacing:0; border-collapse:separate; min-width:initial; width:max-content; }
+.table-host .compare-table thead th{ z-index:6; background:#fff; position:sticky; top:0 !important; }
+.table-host .compare-table thead th:first-child,
+.table-host .compare-table tbody th{ background:#fff; left:0; position:sticky; z-index:7; }
+.table-host .compare-table tbody tr:nth-child(odd) th{ background:#fafafa; }
+.table-host .compare-table thead th:first-child{ width:var(--compare-fixed-col); }
+.table-host .compare-table thead th:not(:first-child),
+.table-host .compare-table tbody td{ min-width:var(--compare-col-min); }
+
+/* =============================================================================
+   15) Chặn khoảng trắng/đè chồng không mong muốn + Section header xanh đồng bộ
+   - Gom các ghi đè (override) để chắc chắn UI khớp ảnh minh hoạ.
+   ----------------------------------------------------------------------------- */
+
+/* Dùng Grid & gap thay cho margin riêng lẻ của con */
+.content{ display:grid; gap:16px; }
+
+/* Chặn margin-collapsing (sập margin) */
+.content > :first-child{ margin-block-start:0; }
+.content > :last-child{ margin-block-end:0; }
+
+/* Tiêu đề full-bleed (nền xanh) cho các section chính */
+#howto > h2,
+#caution > h2,
+#summary > h2,
+:is(#ranking, #compare, #detailCarousel, #profile) > h2{
+  padding:14px 16px;
+  background:linear-gradient(90deg,#2f62d9,#5b8cff);
+  border-bottom:1px solid #012ef5;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  color:#fff;
+  display:block;
+  font-weight:800;
+  margin:-16px -16px 12px;
+}
+
+@media (max-width:640px){
+    
+  #howto.section.card > h2,
+  #summary.section.card > h2,
+:is(#ranking, #compare, #detailCarousel, #profile).section.card > h2{
+  margin:calc(var(--card-pad) * -1);
+  margin-bottom:var(--card-pad);
+}
+}
+
+/* #lead là card mẹ, ô con là card con (bo tròn + bóng đổ đồng bộ) */
+#lead.card{
+  border:1px solid var(--line) !important;
+  background:var(--card) !important;
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-card);
+  display:grid;
+  gap:20px;
+  padding:16px !important;
+}
+#lead.card > img{
+  justify-self:center;       /* Đặt ảnh nằm giữa card */
+  margin-inline:auto;
+}
+#lead .section.card{
+  margin:0;
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-card);
+  overflow:hidden;
+}
+#howto > h2,
+#caution > h2{ border-radius:var(--radius-lg) var(--radius-lg) 0 0; }
+
+/* =============================================================================
+   16) Lưới/ảnh/iframe tự co; chống tràn ngang; ngắt từ dài
+   - Bảo hiểm giao diện responsive.
+   ----------------------------------------------------------------------------- */
+:where(.page, .content, .card, .rank-grid, .dc-wrap, .dc-stage, .table-host, .compare-table, .toc, .promo-footer__inner):not(.avatar){ min-width:0; }
+:where(img, svg, video, iframe, html, body):not(.avatar){ max-width:100%; height:auto; display:block; }
+h1, h2, h3, p, li, .col-name, .jp-lead, .tag{ overflow-wrap:anywhere; word-break:break-word; }
+
+/* Reset UL mặc định cho khu vực 注意点 */
+#cautionList {
+  list-style: none;
+  padding-inline-start: 0; /* tương đương padding-left trong ngữ cảnh LTR */
+  margin-left: 0;
+}
+/* Ẩn viền & bóng khối ngay dưới  mà KHÔNG đổi bố cục */
+#howto.section.card{
+  border-color: transparent !important;  /* giữ 1px border nhưng không nhìn thấy */
+  box-shadow: none !important;           /* tắt bóng */
+}
+#caution.section.card{
+  border-color: transparent !important;  /* giữ 1px border nhưng không nhìn thấy */
+  box-shadow: none !important;           /* tắt bóng */
+}
+#summary.section.card{
+  border-color: transparent !important;  /* giữ 1px border nhưng không nhìn thấy */
+  box-shadow: none !important;           /* tắt bóng */
+}
+#detailCarousel.section.card > h2{ margin-bottom:0; }
+#profile.section.card{
+  border-color: transparent !important;  /* giữ 1px border nhưng không nhìn thấy */
+  box-shadow: none !important;           /* tắt bóng */
+}
+
+#profile.section.card > h2{ margin-bottom:0; }
+#profileHost{ margin-top:0; }
+#profileHost .profile-card{ margin-top:0; }
+
+/* Bảng so sánh chiếm 100% chiều ngang trên mobile */
+@media (max-width:900px){ .table-host{ max-width:100%; margin-inline:0; } }
+
+/* Lưới ranking co cột dần khi màn bé */
+@media (max-width:1024px){ .rank-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+@media (max-width:900px){ .rank-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); } }
+@media (max-width:480px){ .rank-grid{ grid-template-columns:1fr; } }
+
+/* Pad/cỡ chữ gọn hơn trên mobile */
+@media (max-width:900px){
+  :root{ --card-pad:clamp(12px, 3.5vw, 16px); }
+  .site-header .wrap{ padding:10px 12px; }
+  .wrap{ padding-inline:clamp(12px, 5vw, 20px); }
+}
+@media (max-width:640px){
+  .section h2{ font-size:20px; }
+  .jp-lead{ line-height:1.8; }
+  .detail-card{ grid-template-columns:1fr; }
+  .detail-card img{ height:auto; width:100%; }
+  .compare-table{ font-size:14px; min-width:640px; }
+  .compare-table th, .compare-table td{ padding:8px; }
+  .backtotop{ height:48px; width:48px; }
+}
+
+/* Điều chỉnh min-width mỗi cột sản phẩm theo kích thước màn hình */
+@media (max-width:900px){ :root{ --compare-col-min:140px; } }
+@media (max-width:640px){ :root{ --compare-col-min:120px; } }
+
+/* =============================================================================
+   17) NAV mobile (hamburger) & Drawer
+   - Khi <=900px: hiển thị nút ☰, menu trượt xuống; backdrop tối nền.
+   ----------------------------------------------------------------------------- */
+@media (max-width:900px){
+  /* Bật layout 1 cột; ẩn side-nav nếu có */
+  .page{ gap:12px; grid-template-columns:1fr; justify-content:stretch; padding-block:8px 16px; }
+  .content{ grid-column:1 / -1; }
+  .side-nav{ display:none !important; }
+  .hero.card img{ aspect-ratio:16/9; object-fit:cover; }
+
+  /* Nút hamburger */
+  .menu-btn{
+    background:#ffffff22;
+    border:1px solid #ffffff66;
+    border-radius:12px;
+    color:#fff;
+    display:grid;
+    font-size:clamp(16px, 6vw, 22px);
+    height:clamp(36px, 9vw, 44px);
+    place-items:center;
+    width:clamp(36px, 9vw, 44px);
+    z-index:1003;
+  }
+
+  /* Ngăn kéo (drawer) của nav */
+  .top-nav{
+    background:#fff;
+    box-shadow:0 12px 28px rgba(0,0,0,.18);
+    color:#1f2a44;
+    display:grid;
+    gap:10px;
+    left:0;
+    opacity:0;
+    padding:12px 16px;
+    pointer-events:none;
+    position:fixed;
+    right:0;
+    top:var(--header-safe);
+    transform:translateY(-120%);
+    z-index:1002;
+  }
+  .top-nav a{ color:#1f2a44; font-weight:700; min-height:44px; padding:12px 4px; }
+
+  /* Nền mờ khi mở menu */
+  .menu-backdrop{
+    background:rgba(0,0,0,.38);
+    display:block;
+    inset:0;
+    opacity:0;
+    pointer-events:none;
+    position:fixed;
+    transition:opacity .2s ease;
+    z-index:1001;
+  }
+
+  /* Toggle checkbox: bật/tắt menu và backdrop */
+  .nav-toggle:checked ~ .top-nav{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .nav-toggle:checked ~ .menu-backdrop{ opacity:1; pointer-events:auto; }
+}
+/* Mobile: cân đều mép trái/phải cho các section trong #lead */
+@media (max-width:900px){
+  /* 1) Các section con: trái = phải */
+  #lead :is(#ranking, #compare, #detailCarousel, #howto, #caution, #summary, #profile,.last-updated){
+    margin-left: 1em !important;
+    margin-right: 1em !important;
+  }
+
+  /* 2) Tiêu đề xanh full-bleed: bù đều hai bên để không bị lệch */
+  #lead :is(#ranking, #compare, #detailCarousel, #howto, #caution, #summary, #profile) > h2{
+    margin-left: -1em !important;
+    margin-right: -1em !important;
+  }
+
+  /* 3) Mục lục (TOC) nằm trong #lead: cũng căn đều */
+  #lead .toc{
+    margin: 0 1em 4px 1em !important; /* top right bottom left */
+  }
+}
+
+/* =============================================================================
+   18) Ghi chú từ vựng (EN→VI) cho dev
+   - viewport: khung nhìn trình duyệt; sticky: dính theo cuộn; drawer: menu trượt.
+   - safe-area-inset: vùng an toàn (tai thỏ iPhone); overflow: tràn nội dung.
+   - aspect-ratio: tỉ lệ khung hình; object-fit: cách ảnh lấp đầy khung.
+   ----------------------------------------------------------------------------- */
+
+/* 19)  === Căn bề ngang các section chính trong #lead bằng vùng chữ phía trên === */
+
+#lead :is(#ranking, #compare, #detailCarousel, #howto, #caution, #summary,#profile,.last-updated){
+  margin-left:1em;   /* cùng “biên trái” với p.jp-lead */
+  margin-right:2em;  /* cùng “biên phải” với p.jp-lead */
+}
+#lead .toc{
+  /* trùng với padding p.jp-lead: trái 1em, phải 2em */
+  margin:0 2em 4px 1em;  /* top right bottom left */
+}
+
+/* (giữ nguyên tiêu đề xanh full-bleed trong phạm vi section) */
+#lead :is(#ranking, #compare, #detailCarousel, #howto, #caution, #summary, ) > h2{
+  margin-left:-1em;  /* ngược với p.jp-lead */
+  margin-right:-2em; /* ngược với p.jp-lead */
+}
+/* ======= MOBILE CROPPING FIX (không xoá gì, chỉ ghi đè) ======= */
+@media (max-width: 640px){
+   
+#lead :is(#ranking, #compare, #detailCarousel, #howto, #caution, #summary,#profile,.last-updated){
+  margin-left:1em;   /* cùng “biên trái” với p.jp-lead */
+  margin-right:2em;  /* cùng “biên phải” với p.jp-lead */
+}
+/* (giữ nguyên tiêu đề xanh full-bleed trong phạm vi section) */
+#lead :is(#ranking, #compare, #detailCarousel, #howto, #caution, #summary  ) > h2{
+  margin-left:-1em;  /* ngược với p.jp-lead */
+  margin-right:-2em; /* ngược với p.jp-lead */
+}
+  /* Ảnh trong detail carousel: hiển thị đủ khung, không cắt */
+  #detailCarousel #dcImg{
+    aspect-ratio: auto !important;   /* bỏ ép vuông 1/1 */
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;  /* không crop ảnh */
+    background: #fff;                /* tránh viền trong suốt khó chịu */
+  }
+
+  /* Nếu còn rule chung height:100% thì ép lại cho mobile */
+  #detailCarousel .dc-stage img{ height: auto !important; }
+
+  /* Card không bị che mép bởi container */
+  #detailCarousel .dc-stage{
+    
+  width:calc(100% + var(--card-pad) * 2);
+  margin-inline:calc(var(--card-pad) * -1);
+  max-width:none;
+  overflow:visible;
+}     
+          
+  }
+
+
+  /* Giảm “peek” để chắc kèo màn hẹp */
+  #detailCarousel{ --dc-peek: 24px; }
+
+  /* Nút CTA luôn vừa khung */
+  #detailCarousel .dc-btn{ max-width: 100%; }
+
+
+/* Tuỳ chọn: nếu các card khác (ranking/detail-list) cũng bị cắt ảnh */
+@media (max-width: 640px){
+  .rank-card img,
+  .detail-card img{
+    aspect-ratio: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+}
+/* === Ẩn mũi tên carousel trên điện thoại (không đụng code cũ) === */
+@media (max-width: 640px){
+  /* Ẩn toàn bộ nút điều hướng nếu có nhiều biến thể */
+  #detailCarousel .dc-nav,
+  #detailCarousel .dc-nav.next,
+  #detailCarousel .dc-nav.prev,
+  #detailCarousel .dc-nav.next.edge,
+  #detailCarousel .dc-nav.prev.edge{
+    display: none !important;
+  }
+}
+/* =============================================================================
+   19) 自己紹介 (Profile Card)
+   - Thẻ giới thiệu tác giả, chuyên gia với ảnh tròn, ruy-băng, tên, mô tả, link. 
+
+   ----------------------------------------------------------------------------- */
+/* Profile card trong #profileHost */
+#profileHost .profile-card{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  border:1px solid #eee;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+  padding:14px;
+  background:#fff;
+  margin-inline:calc(var(--card-pad) * -1);
+}
+#profileHost .p-left{ text-align:center; }
+#profileHost .p-left img{
+  width:120px; height:120px; object-fit:cover; border-radius:50%; border:1px solid #ddd;
+}
+#profileHost .badge{
+  margin-top:8px; display:inline-block; background:#1f2a44; color:#fff;
+  font-weight:700; padding:4px 12px; border-radius:6px;
+}
+#profileHost .title{ margin:2px 0 4px; font-weight:700; }
+#profileHost .name{ margin:0 0 8px; font-size:22px; font-weight:800; }
+#profileHost .name .chev{ opacity:.6; }
+#profileHost .desc{
+  display:inline-block;
+  background:#fde7cf;
+  border:1px solid #f3c6a2;
+  border-radius:16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.06);
+  color:#333;
+  line-height:1.7;
+  padding:12px 16px;
+  position:relative;
+}
+/* vẽ “đuôi” bên trái */
+#profileHost .desc::before,
+#profileHost .desc::after{
+  content:""; position:absolute; top:12px; left:-16px;
+  border:8px solid transparent;
+}
+#profileHost .desc::before{ border-right-color:#f3c6a2; }
+#profileHost .desc::after { left:-14px; top:13px; border:7px solid transparent; border-right-color:#fde7cf; }
+
+#profileHost .link a{ font-weight:700; text-decoration:none; }
+
+@media (max-width:640px){
+   #profileHost .profile-card { 
+    flex-direction: row !important;   /* khóa lại theo hàng ngang */
+  }
+  #profileHost .p-left img { 
+    width: 84px; 
+    height: 84px; 
+    object-fit: cover;
+  }
+  #profileHost .desc, 
+  #profileHost .bubble {              /* nếu bạn dùng class bubble cho lời giới thiệu */
+    width: 100%;
+    margin-top: 0;
+  }
+   .talk .name,
+  #profileHost .badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    white-space:nowrap;              /* không xuống dòng */
+    writing-mode:horizontal-tb;      /* ép chữ nằm ngang */
+    text-orientation:mixed;
+    line-height:1;
+    width:max-content;
+  }
+
+  /* (tuỳ chọn) style badge ở .talk – nền xanh đậm */
+  .talk .name{
+    margin-top:0;
+    padding:4px 12px;
+    border-radius:6px;
+    background:#1f2a44;
+    color:#fff;                      /* đổi #000 nếu muốn chữ đen */
+    font-weight:700;
+  }
+
+  /* Giữ bố cục talk giống desktop, chỉ thu nhỏ nhẹ kích thước */
+  .talk{
+    display:grid;
+    grid-template-columns:68px 1fr;
+    column-gap:12px;
+    row-gap:8px;
+    align-items:center;
+  }
+  .talk .speaker{ display:contents; }
+  .talk .avatar{
+    width:68px;
+    height:68px;
+    justify-self:center;
+  }
+  .talk .name{
+    grid-column:1;
+    grid-row:2;
+    margin-top:4px;
+  }
+  .talk .balloon{
+    grid-column:2;
+    grid-row:1 / span 2;
+    align-self:center;
+  }
+}
+
+
+
+@media (max-width:640px){
+  #lead.card{
+    padding:0 !important;
+    border:none !important;
+    border-radius:0;
+    box-shadow:none;
+  }
+  #lead.card > img{
+    width:100vw;
+    max-width:none;
+    margin-inline:auto;
+    justify-self:center;
+  }
+}
+
+
+
+
+@media (max-width:640px){
+  #lead.card > .jp-lead-block{ padding-inline:clamp(12px,4vw,20px); }
+  #lead.card > #toc,
+  #lead.card section.card{ padding-inline:clamp(12px,4vw,20px); }
+}
+
+
+
+
+@media (max-width:640px){
+  .content > .section.card{ margin-inline:0; }
+}
+
+
+
+@media (max-width:640px){
+  #lead.card{
+    padding:0 !important;
+    border:none !important;
+    border-radius:0;
+    box-shadow:none;
+  }
+  #lead.card>img{
+    width:100vw;
+    max-width:none;
+    margin-inline:auto;
+    justify-self:center;
+  }
+}

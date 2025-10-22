@@ -1,0 +1,192 @@
+﻿<!-- index.html -->
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>カタログギフト徹底比較 | 2025年版</title>
+  <meta name="description" content="ランキング・比較表・選び方・注意点・まとめまで一気に。">
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+
+  <!-- =========================
+       HEADER: logo + nav (responsive bằng checkbox)
+       ========================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="wrap">
+      <!-- ===== Header: tiêu đề trung tâm (mybest風) ===== -->
+     <!-- ===== Header: tiêu đề trung tâm (mybest風) ===== -->
+    <div class="brand-block" aria-label="Tiêu đề trang">
+      <!-- Dòng nhỏ (eyebrow) -->
+      <div class="brand-eyebrow">ギフト専門店スタッフが本音でレビュー</div>
+      <!-- Dòng lớn (headline) -->
+      <a class="brand-headline" href="#lead">カタログギフト徹底比較</a>
+    </div>
+
+    <!-- Menu mobile: GIỮ NGUYÊN 2 thẻ dưới nếu đã có -->
+    <input id="navToggle" class="nav-toggle" type="checkbox" hidden>
+    <label for="navToggle" class="menu-btn" aria-controls="topNav" aria-label="メニュー">☰</label>
+
+    <!-- Menu phải: chỉ 6 mục yêu cầu -->
+    <nav id="topNav" class="top-nav" aria-label="トップナビ">
+      <a href="#ranking">ランキング</a>
+      <a href="#compare">比較表</a>
+      <a href="#detailCarousel">詳細</a>
+      <a href="#howto">選び方</a>
+      <a href="#caution">注意点</a>
+      <a href="#summary">まとめ</a>
+    </nav>
+
+    <!-- Backdrop mobile: GIỮ nếu đang dùng -->
+    <label for="navToggle" class="menu-backdrop"></label>
+
+    </div>
+  </header>
+
+  <!-- =========================
+       MAIN CONTENT
+       ========================= -->
+  <main class="page">
+    <article class="content">
+
+      <!-- =========================
+           LEAD/HERO: ảnh đầu + đoạn dẫn
+           ========================= -->
+      <section id="lead" class="lead card">
+        <img
+          src="image/banner/hikakucatalog_top.jpg"
+          alt="カタログギフト 徹底比較 メイン画像"
+          width="1000" height="500"
+          loading="lazy" decoding="async"
+        >
+        <div class="jp-lead-block">
+          <h1 class="jp-lead">
+             【失敗しない】
+          </h1>
+          <h1 class="jp-lead">
+             カタログギフトの選び方＆
+          </h1>
+          <h2 class="jp-lead">
+              人気ランキング｜ギフト専門店が本音で比較
+          </h2>
+          <p class="jp-lead">
+           「せっかく贈るなら、相手に喜んでもらいたい」――そんなときに便利なのがカタログギフトです。選ぶ楽しみも、受け取る喜びもあるギフトは、最近ますます人気を集めています。
+          </p>
+          <p class="jp-lead">
+           ただ、<span class="u-strong">カタログギフトはジャンルも価格もさまざまで、グルメや体験、雑貨など用途に応じた種類も豊富</span>。さらにコンパクトなカード型タイプまで登場しており、どれを選べばいいか迷ってしまう方も多いのではないでしょうか
+          </p>
+          <p class="jp-lead">
+           この記事では、<span class="u-strong">各メーカーの最新商品や売れ筋をもとに5つのポイントで徹底比較</span>。人気のカタログギフトをランキング形式で紹介しながら<span class="u-strong">「誰に贈っても喜ばれるカタログギフトの選び方」</span>までわかりやすく解説します。
+          </p>
+          <p class="jp-lead">
+              比較・検証を通してわかった、後悔しないカタログギフトの選び方もご紹介します。ギフト選びにぜひお役立てください。
+          </p>
+          
+          <p class="last-updated">
+            <!-- Giá trị fallback để phòng khi tắt JS; JS sẽ tự thay nội dung này -->
+              <time id="lastUpdated" datetime="">2025年10月01日更新</time>
+            </p>
+        </div>
+
+        <!-- MỤC LỤC: sẽ được JS tự sinh liên kết đến các .section -->
+        <nav id="toc" class="toc" aria-label="目次"></nav>
+
+        <!-- =========================
+            自己紹介
+             ========================= -->
+      <!-- === PROFILE (wrapper để làm anchor) === -->
+          <section id="profile" class="section card">
+            <h2>自己紹介</h2>
+            <!-- Mount point: JS sẽ đổ nội dung vào đây -->
+            <div id="profileHost" ></div>
+          </section>
+
+
+        <!-- =========================
+             RANKING
+             ========================= -->
+        <section id="ranking" class="section card">
+          <h2>ランキング一覧</h2>
+          <div id="rankingGrid" class="rank-grid"></div>
+          <p class="note">※ 価格は編集部調査の目安。最新は各販売ページをご確認ください。</p>
+        </section>
+
+        <!-- =========================
+             COMPARE
+             ========================= -->
+        <section id="compare" class="section card">
+          <h2>主要カタログを一括比較</h2>
+          <div id="compareHost" class="table-host"></div>
+        </section>
+
+        <!-- =========================
+             DETAIL CAROUSEL
+             ========================= -->
+        <section id="detailCarousel" class="section card" aria-label="主要カタログ 詳細">
+          <h2>各カタログの詳細</h2>
+
+        <div class="dc-viewport" aria-roledescription="carousel" aria-label="商品スライダー" tabindex="0">
+              <div class="dc-track" id="dcTrack"></div>
+          </div>
+
+         
+        </section>
+
+        <!-- =========================
+             HOW TO
+             ========================= -->
+        <section id="howto" class="section card">
+          <h2>カタログギフトの選び方</h2>
+          <img
+            src="image/banner/hikakucatalog_erabikata.jpg"
+            alt="カタログギフト 徹底比較 メイン画像"
+            width="960" height="500"
+            loading="lazy" decoding="async"
+          >
+          <div id="howtoHost" class="howto"></div>
+        </section>
+
+        <!-- =========================
+             CAUTION
+             ========================= -->
+        <section id="caution" class="section card">
+          <h2>購入時の注意点</h2>
+          <img
+            src="image/banner/hikakucatalog_tyuuiten.jpg"
+            alt="カタログギフト 徹底比較 メイン画像"
+            width="960" height="500"
+            loading="lazy" decoding="async"
+          >
+          <ul class="bullet" id="cautionList"></ul>
+        </section>
+
+        <!-- =========================
+             SUMMARY
+             ========================= -->
+        <section id="summary" class="section card">
+          <h2>まとめ</h2>
+          <div id="summaryHost" class="summary"></div>
+        </section>
+      </section><!-- /#lead -->
+    </article>
+  </main>
+
+  <!-- Nút về đầu trang -->
+  <a href="#lead" class="backtotop" aria-label="ページ先頭へ">↑</a>
+
+  <!-- =========================
+       FOOTER (promo tím)
+       ========================= -->
+  <footer class="promo-footer" aria-label="サイト紹介">
+    <div class="promo-footer__inner">
+      <p class="promo-eyebrow">ギフト専門店スタッフが本音でレビュー</p>
+      <h2 class="promo-title">カタログギフト徹底比較</h2>
+      <p class="promo-copy">©プロが選んだカタログギフト比較</p>
+    </div>
+  </footer>
+
+  <!-- JS sau cùng -->
+  <script defer src="app.js"></script>
+</body>
+</html>
