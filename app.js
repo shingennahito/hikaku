@@ -555,8 +555,8 @@ const PRODUCTS = [
       "有効期限": "6ヶ月"
     },
     "features": {
-      "冊子タイプ": true,
-      "カードタイプ": true,
+      "冊子タイプ": false,
+      "カードタイプ": false,
       "電子カタログあり": true,
       "紙袋対応": true,
       "熨斗紙対応": true,
@@ -581,8 +581,8 @@ const PRODUCTS = [
       "有効期限": "受け取りから4ヶ月"
     },
     "features": {
-      "冊子タイプ": true,
-      "カードタイプ": true,
+      "冊子タイプ": false,
+      "カードタイプ": false,
       "電子カタログあり": true,
       "紙袋対応": true,
       "熨斗紙対応": true,
@@ -830,9 +830,9 @@ function initDetailCarousel(list = PRODUCTS){
     lines.push(`<li>価格：${fmtPrice(p.price)}。</li>`);
     if(p.specs?.掲載点数)         lines.push(`<li>掲載点数：${p.specs.掲載点数}</li>`);
     if(p.specs?.コース数)         lines.push(`<li>コース数：${p.specs.コース数}</li>`);
-if(p.specs?.取扱ジャンル)     lines.push(`<li>取扱ジャンル：${p.specs.取扱ジャンル}。</li>`);
+if(p.specs?.取扱ジャンル)     lines.push(`<li>取扱ジャンル：${p.specs.取扱ジャンル}</li>`);
     if(p.specs?.有効期限)         lines.push(`<li>有効期限：${p.specs.有効期限}</li>`);
-    if(p.specs?.おすすめのシーン)  lines.push(`<li>おすすめのシーン：${p.specs.おすすめのシーン}。</li>`);
+    if(p.specs?.おすすめのシーン)  lines.push(`<li>おすすめのシーン：${p.specs.おすすめのシーン}</li>`);
     return lines.join("");
   };
 
