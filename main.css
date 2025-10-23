@@ -297,6 +297,8 @@ a:focus-visible{ outline:3px solid #b5a6ff; outline-offset:2px; }
   text-align:left;
   display:grid;
   gap:.8em;
+  padding-left:1em;
+  padding-right:2em;
 }
 .jp-lead-block h1.jp-lead{
   font-size:clamp(28px, 5vw, 38px);
