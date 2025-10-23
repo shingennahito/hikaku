@@ -572,7 +572,7 @@ const PRODUCTS = [
     "name": "BEAMS ビームズ",
     "image": "image/raking/beams.jpg",
     "url": "https://www.giftmarry.jp/shopbrand/ct3005/",
-    "price": "4,290円〜11,990円",
+    "price": "4,290円〜11,990円(税込)",
     "specs": {
       "コース数": "3",
       "掲載点数": "約75点",
@@ -827,7 +827,7 @@ function initDetailCarousel(list = PRODUCTS){
   // Vẽ toàn bộ slide vào track
   const specLines = (p) => {
     const lines = [];
-    lines.push(`<li>価格：${fmtPrice(p.price)}。</li>`);
+    lines.push(`<li>価格：${fmtPrice(p.price)}</li>`);
     if(p.specs?.掲載点数)         lines.push(`<li>掲載点数：${p.specs.掲載点数}</li>`);
     if(p.specs?.コース数)         lines.push(`<li>コース数：${p.specs.コース数}</li>`);
 if(p.specs?.取扱ジャンル)     lines.push(`<li>取扱ジャンル：${p.specs.取扱ジャンル}</li>`);
