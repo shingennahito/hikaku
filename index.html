@@ -1,195 +1,375 @@
-﻿<!-- index.html -->
-<!doctype html>
-<html lang="ja">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>カタログギフト徹底比較 | 2025年版</title>
-  <meta name="description" content="ランキング・比較表・選び方・注意点・まとめまで一気に。">
-  <link rel="stylesheet" href="main.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Hệ Mặt Trời - Dễ Điều Khiển</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; font-family: sans-serif; touch-action: none; }
+        
+        /* Chặn copy/select để trải nghiệm app tốt hơn */
+        * { user-select: none; -webkit-user-select: none; }
+
+        #canvas-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; }
+
+        /* Giao diện nổi lên trên 3D */
+        .ui-layer { position: absolute; z-index: 10; width: 100%; pointer-events: none; }
+        .interactive { pointer-events: auto; }
+
+        /* Thanh cuộn ngang chứa các hành tinh */
+        .planet-dock {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 16px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Nút chọn hành tinh to, dễ bấm */
+        .planet-btn {
+            flex: 0 0 auto;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .planet-btn.active {
+            background: rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        .planet-btn:active { transform: scale(0.95); }
+
+        .planet-icon {
+            width: 32px; height: 32px; border-radius: 50%; margin-bottom: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* Thanh Slider to */
+        input[type=range] {
+            width: 100%; height: 30px; /* Tăng vùng chạm */
+            accent-color: #fbbf24;
+        }
+    </style>
 </head>
 <body>
-<header class="site-header" id="siteHeader">
-  <div class="wrap">
-    <!-- Tiêu đề: icon trái + 2 dòng chữ phải -->
-    <div class="brand-block" aria-label="サイトタイトル">
-      <img src="image/icon/icon_catalog.jpg"
-           alt="カタログギフト アイコン"
-           width="48" height="48" loading="eager">
-      <div class="brand-headline">
-        <div class="hero-eyebrow">ギフト専門店スタッフが本音でレビュー</div>
-        <a href="#lead" class="brand-headline-text">カタログギフト徹底比較</a>
-      </div>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Top Control: Gravity -->
+    <div class="ui-layer top-0 p-4">
+        <div class="interactive bg-gray-900/80 p-4 rounded-xl border border-gray-700 max-w-sm mx-auto shadow-2xl">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-yellow-400 font-bold uppercase text-sm">Sức hút Mặt Trời</span>
+                <span id="mass-display" class="text-white font-mono bg-black/50 px-2 rounded">100%</span>
+            </div>
+            <input type="range" id="gravity-slider" min="0" max="200" value="100" class="cursor-pointer">
+            <p class="text-gray-400 text-xs mt-1 text-center">Kéo về 0: Hành tinh bay mất • Kéo lên 200: Hút cực mạnh</p>
+        </div>
     </div>
 
-    <!-- Toggle mobile -->
-    <input id="navToggle" class="nav-toggle" type="checkbox" hidden>
-    <label for="navToggle" class="menu-btn" aria-controls="topNav" aria-label="メニュー">☰</label>
-
-    <!-- Nav -->
-    <nav id="topNav" class="top-nav" aria-label="トップナビ">
-      <a href="#ranking">ランキング</a>
-      <a href="#compare">比較表</a>
-      <a href="#detailCarousel">詳細</a>
-      <a href="#howto">選び方</a>
-      <a href="#caution">注意点</a>
-      <a href="#summary">まとめ</a>
-    </nav>
-
-    <!-- Backdrop mobile -->
-    <label for="navToggle" class="menu-backdrop"></label>
-  </div>
-</header>
-
-
-  <!-- =========================
-       MAIN CONTENT
-       ========================= -->
-  <main class="page">
-    <article class="content">
-
-      <!-- =========================
-           LEAD/HERO: ảnh đầu + đoạn dẫn
-           ========================= -->
-      <section id="lead" class="lead card">
-        <img
-          src="image/banner/hikakucatalog_top.jpg"
-          alt="カタログギフト 徹底比較 メイン画像"
-          width="1000" height="500"
-          loading="lazy" decoding="async"
-        >
-        <div class="jp-lead-block">
-          <h1 class="jp-lead">
-             【失敗しない】贈って喜ばれる
-
-          </h1>
-          <h1 class="jp-lead">
-             カタログギフトの選び方
-          </h1>
-          <h2 class="jp-lead">
-              人気ランキング＆ギフト専門店スタッフの本音レビュー
-          </h2>
-          <p class="jp-lead">
-           「せっかく贈るなら、相手に喜んでもらいたい」――そんなときに便利なのがカタログギフトです。選ぶ楽しみも、受け取る喜びもあるギフトは、最近ますます人気を集めています。
-          </p>
-          <p class="jp-lead">
-           ただ、<span class="u-strong">カタログギフトはジャンルも価格もさまざまで、グルメや体験、雑貨など用途に応じた種類も豊富</span>。さらにコンパクトなカード型タイプまで登場しており、どれを選べばいいか迷ってしまう方も多いのではないでしょうか
-          </p>
-          <p class="jp-lead">
-           この記事では、<span class="u-strong">各メーカーの最新商品や売れ筋をもとに5つのポイントで徹底比較</span>。人気のカタログギフトをランキング形式で紹介しながら<span class="u-strong">「誰に贈っても喜ばれるカタログギフトの選び方」</span>までわかりやすく解説します。
-          </p>
-          <p class="jp-lead">
-              比較・検証を通してわかった、後悔しないカタログギフトの選び方もご紹介します。ギフト選びにぜひお役立てください。
-          </p>
-          
-          <p class="last-updated">
-            <!-- Giá trị fallback để phòng khi tắt JS; JS sẽ tự thay nội dung này -->
-              <time id="lastUpdated" datetime="">2025年10月01日更新</time>
-            </p>
+    <!-- Bottom Control: Planet Selector -->
+    <div class="ui-layer bottom-0">
+        <!-- Info Box (Chỉ hiện khi chọn hành tinh) -->
+        <div id="info-box" class="bg-blue-900/80 text-white p-3 text-center text-sm mb-0 backdrop-blur-md border-t border-blue-500/30 hidden">
+            Đang theo dõi: <b id="target-name" class="text-yellow-300">Earth</b>
         </div>
 
-        <!-- MỤC LỤC: sẽ được JS tự sinh liên kết đến các .section -->
-        <nav id="toc" class="toc" aria-label="目次"></nav>
-
-        <!-- =========================
-            自己紹介
-             ========================= -->
-      <!-- === PROFILE (wrapper để làm anchor) === -->
-          <section id="profile" class="section card">
-            
-            <!-- Mount point: JS sẽ đổ nội dung vào đây -->
-            <div id="profileHost" ></div>
-          </section>
-
-
-        <!-- =========================
-             RANKING
-             ========================= -->
-        <section id="ranking" class="section card">
-          <h2>今売れてるカタログギフトはこれ！</h2>
-          <div id="rankingGrid" class="rank-grid"></div>
-          <p class="note">※ 価格は編集部調査の目安。最新は各販売ページをご確認ください。</p>
-        </section>
-
-        <!-- =========================
-             COMPARE
-             ========================= -->
-        <section id="compare" class="section card">
-          <h2>人気カタログをまとめて比較！</h2>
-          <div id="compareHost" class="table-host"></div>
-        </section>
-
-        <!-- =========================
-             DETAIL CAROUSEL
-             ========================= -->
-        <section id="detailCarousel" class="section card" aria-label="主要カタログ 詳細">
-          <h2>気になるカタログの中身をじっくりチェック</h2>
-
-        <div class="dc-viewport" aria-roledescription="carousel" aria-label="商品スライダー" tabindex="0">
-              <div class="dc-track" id="dcTrack"></div>
-          </div>
-
-         
-        </section>
-
-        <!-- =========================
-             HOW TO
-             ========================= -->
-        <section id="howto" class="section card">
-          <h2>どれを選べばいい？迷ったときの選び方ガイド</h2>
-          <img
-            src="image/banner/hikakucatalog_erabikata.jpg"
-            alt="カタログギフト 徹底比較 メイン画像"
-            width="960" height="500"
-            loading="lazy" decoding="async"
-          >
-          <div id="howtoHost" class="howto"></div>
-        </section>
-
-        <!-- =========================
-             CAUTION
-             ========================= -->
-        <section id="caution" class="section card">
-          <h2>買う前に知っておきたい注意ポイント！</h2>
-          <img
-            src="image/banner/hikakucatalog_tyuuiten.jpg"
-            alt="カタログギフト 徹底比較 メイン画像"
-            width="960" height="500"
-            loading="lazy" decoding="async"
-          >
-          <ul class="bullet" id="cautionList"></ul>
-        </section>
-
-        <!-- =========================
-             SUMMARY
-             ========================= -->
-        <section id="summary" class="section card">
-          <h2>もう迷わない！カタログ選びのポイント総まとめ</h2>
-          <div id="summaryHost" class="summary"></div>
-        </section>
-      </section><!-- /#lead -->
-    </article>
-  </main>
-
-  <!-- Nút về đầu trang -->
-  <a href="#lead" class="backtotop" aria-label="ページ先頭へ">↑</a>
-
-  <!-- =========================
-       FOOTER (promo tím)
-       ========================= -->
-  <footer class="promo-footer" aria-label="サイト紹介">
-    <div class="promo-footer__inner">
-      <p class="hero-eyebrow">ギフト専門店スタッフが本音でレビュー</p>
-      <h2 class="promo-title">カタログギフト徹底比較</h2>
-      <p class="promo-copy">©プロが選んだカタログギフト比較</p>
+        <!-- Horizontal Scroll Menu -->
+        <div class="interactive planet-dock">
+            <!-- Các nút sẽ được tạo bằng JS -->
+        </div>
     </div>
-  </footer>
 
-  <!-- JS sau cùng -->
-  <script defer src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        // --- Cấu hình ---
+        const SETTINGS = {
+            G: 0.5, // Hằng số hấp dẫn
+            sunMass: 500, // Khối lượng mặt trời
+        };
+
+        const PLANETS_DB = [
+            { id: 'sun', name: "Mặt Trời", color: '#FFAA00', size: 12, dist: 0, speed: 0 },
+            { id: 'mercury', name: "Sao Thủy", color: '#AAAAAA', size: 1.5, dist: 28, speed: 1.5 },
+            { id: 'venus', name: "Sao Kim", color: '#E6C229', size: 2.8, dist: 45, speed: 1.2 },
+            { id: 'earth', name: "Trái Đất", color: '#2E86C1', size: 3, dist: 65, speed: 1.0, texture: 'earth' },
+            { id: 'mars', name: "Sao Hỏa", color: '#C0392B', size: 2, dist: 85, speed: 0.8 },
+            { id: 'jupiter', name: "Sao Mộc", color: '#D35400', size: 7, dist: 130, speed: 0.4, texture: 'jupiter' },
+            { id: 'saturn', name: "Sao Thổ", color: '#F1C40F', size: 6, dist: 180, speed: 0.3, ring: true },
+            { id: 'uranus', name: "Thiên Vương", color: '#76D7C4', size: 4, dist: 220, speed: 0.2 },
+            { id: 'neptune', name: "Hải Vương", color: '#2874A6', size: 4, dist: 260, speed: 0.15 }
+        ];
+
+        // --- Three.js Variables ---
+        let scene, camera, renderer, controls;
+        let planetObjects = []; // Chứa mesh và dữ liệu vật lý
+        let targetPlanet = null; // Hành tinh camera đang bám theo
+
+        function init() {
+            // 1. Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x050505);
+            
+            // 2. Camera
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+            camera.position.set(0, 100, 200);
+
+            // 3. Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // 4. Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.1;
+            controls.maxDistance = 600;
+
+            // 5. Lights
+            const ambient = new THREE.AmbientLight(0x404040);
+            scene.add(ambient);
+            
+            const sunLight = new THREE.PointLight(0xffffff, 2, 800);
+            scene.add(sunLight);
+
+            // 6. Create Objects
+            createStars();
+            createSystem();
+
+            // 7. Build UI
+            buildMenu();
+
+            // 8. Events
+            window.addEventListener('resize', onResize);
+            
+            // Slider Event
+            const slider = document.getElementById('gravity-slider');
+            slider.addEventListener('input', (e) => {
+                const val = parseInt(e.target.value);
+                SETTINGS.sunMass = 500 * (val / 100);
+                document.getElementById('mass-display').innerText = val + "%";
+                
+                // Hiệu ứng visual cho mặt trời khi tăng năng lượng
+                const sunObj = planetObjects.find(p => p.id === 'sun');
+                if(sunObj) {
+                    const scale = 1 + (val - 100)/200;
+                    sunObj.mesh.scale.set(scale, scale, scale);
+                    sunObj.mesh.material.emissiveIntensity = val / 100;
+                }
+            });
+
+            animate();
+        }
+
+        // --- Tạo vân bề mặt (Procedural Texture) ---
+        function createTexture(color) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256; canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = color;
+            ctx.fillRect(0,0,256,256);
+            
+            // Thêm ồn (noise) để nhìn giống thật
+            for(let i=0; i<1000; i++) {
+                ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                const x = Math.random()*256, y = Math.random()*256, r = Math.random()*5;
+                ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+            }
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        function createStars() {
+            const geo = new THREE.BufferGeometry();
+            const verts = [];
+            for(let i=0; i<3000; i++) {
+                verts.push(THREE.MathUtils.randFloatSpread(1000), THREE.MathUtils.randFloatSpread(1000), THREE.MathUtils.randFloatSpread(1000));
+            }
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+            const starMesh = new THREE.Points(geo, new THREE.PointsMaterial({color:0x888888, size:1}));
+            scene.add(starMesh);
+        }
+
+        function createSystem() {
+            PLANETS_DB.forEach(p => {
+                let mat;
+                if (p.id === 'sun') {
+                    mat = new THREE.MeshBasicMaterial({ color: 0xffaa00 }); // Mặt trời tự sáng
+                } else {
+                    mat = new THREE.MeshStandardMaterial({ 
+                        map: createTexture(p.color),
+                        roughness: 0.7
+                    });
+                }
+
+                const mesh = new THREE.Mesh(new THREE.SphereGeometry(p.size, 32, 32), mat);
+                
+                // Vị trí ban đầu (ngẫu nhiên trên vòng tròn)
+                const angle = Math.random() * Math.PI * 2;
+                mesh.position.set(Math.cos(angle) * p.dist, 0, Math.sin(angle) * p.dist);
+
+                // Vận tốc ban đầu (để quay quanh mặt trời)
+                // Logic: Vector vuông góc với bán kính
+                let velocity = new THREE.Vector3();
+                if (p.dist > 0) {
+                    // Tính vận tốc để quỹ đạo tròn ổn định: v = sqrt(GM/r)
+                    const v = Math.sqrt((SETTINGS.G * SETTINGS.sunMass) / p.dist);
+                    velocity = new THREE.Vector3(-Math.sin(angle), 0, Math.cos(angle)).multiplyScalar(v);
+                }
+
+                // Thêm vành đai (Ring)
+                if (p.ring) {
+                    const ringGeo = new THREE.RingGeometry(p.size * 1.4, p.size * 2.2, 32);
+                    const ringMat = new THREE.MeshBasicMaterial({ color: 0xdddddd, side: THREE.DoubleSide, transparent:true, opacity:0.6 });
+                    const ring = new THREE.Mesh(ringGeo, ringMat);
+                    ring.rotation.x = Math.PI/2;
+                    mesh.add(ring);
+                }
+
+                // Thêm Trail (Vệt đuôi)
+                const trailGeo = new THREE.BufferGeometry();
+                const positions = new Float32Array(150 * 3); // 150 điểm
+                trailGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                const trailMesh = new THREE.Line(trailGeo, new THREE.LineBasicMaterial({ color: p.color, opacity: 0.3, transparent: true }));
+                scene.add(trailMesh);
+
+                scene.add(mesh);
+
+                planetObjects.push({
+                    id: p.id,
+                    name: p.name,
+                    mesh: mesh,
+                    velocity: velocity,
+                    mass: 1,
+                    dist: p.dist,
+                    trail: trailMesh,
+                    trailIdx: 0
+                });
+            });
+        }
+
+        function buildMenu() {
+            const container = document.querySelector('.planet-dock');
+            
+            // Nút Reset View (Nhìn tổng quát)
+            const resetBtn = document.createElement('button');
+            resetBtn.className = 'planet-btn';
+            resetBtn.innerHTML = `<div class="planet-icon" style="background: #fff"></div><span class="text-xs">Toàn Cảnh</span>`;
+            resetBtn.onclick = () => {
+                targetPlanet = null;
+                document.getElementById('info-box').classList.add('hidden');
+                // Reset camera
+                controls.target.set(0,0,0);
+                camera.position.set(0, 200, 300);
+                document.querySelectorAll('.planet-btn').forEach(b => b.classList.remove('active'));
+                resetBtn.classList.add('active');
+            };
+            container.appendChild(resetBtn);
+
+            PLANETS_DB.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'planet-btn';
+                // Icon màu giống hành tinh
+                btn.innerHTML = `<div class="planet-icon" style="background: ${p.color}"></div><span class="text-xs text-center leading-tight">${p.name}</span>`;
+                
+                btn.onclick = () => {
+                    // Active visual
+                    document.querySelectorAll('.planet-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Set Target
+                    targetPlanet = planetObjects.find(obj => obj.id === p.id);
+                    
+                    // UI Info
+                    document.getElementById('info-box').classList.remove('hidden');
+                    document.getElementById('target-name').innerText = p.name;
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function updatePhysics() {
+            const sun = planetObjects.find(p => p.id === 'sun');
+
+            planetObjects.forEach(p => {
+                if (p.id === 'sun') return; // Mặt trời đứng yên
+
+                // 1. Tính khoảng cách tới mặt trời
+                const distSq = p.mesh.position.distanceToSquared(sun.mesh.position);
+                if (distSq < 100) return; // Tránh va chạm quá gần
+
+                // 2. Lực hướng tâm (Hấp dẫn)
+                const forceDir = sun.mesh.position.clone().sub(p.mesh.position).normalize();
+                const forceMag = (SETTINGS.G * SETTINGS.sunMass) / distSq;
+                const force = forceDir.multiplyScalar(forceMag);
+
+                // 3. Cập nhật vận tốc
+                p.velocity.add(force);
+
+                // 4. Cập nhật vị trí
+                p.mesh.position.add(p.velocity);
+                p.mesh.rotation.y += 0.02; // Tự quay
+
+                // 5. Cập nhật Vệt đuôi (Trail)
+                const posArr = p.trail.geometry.attributes.position.array;
+                // Dời điểm cũ
+                for(let i = posArr.length - 1; i >= 3; i--) {
+                    posArr[i] = posArr[i-3];
+                }
+                // Điểm mới
+                posArr[0] = p.mesh.position.x;
+                posArr[1] = p.mesh.position.y;
+                posArr[2] = p.mesh.position.z;
+                p.trail.geometry.attributes.position.needsUpdate = true;
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            updatePhysics();
+
+            // Camera follow logic
+            if (targetPlanet) {
+                // Mượt mà di chuyển tâm nhìn (target) vào hành tinh
+                controls.target.lerp(targetPlanet.mesh.position, 0.1);
+                
+                // Camera bám theo phía sau/trên hành tinh 1 chút
+                // Tính toán vị trí camera mục tiêu
+                const offset = new THREE.Vector3(30, 20, 30); // Khoảng cách camera so với hành tinh
+                const camTargetPos = targetPlanet.mesh.position.clone().add(offset);
+                
+                // Di chuyển camera mượt mà tới vị trí đó
+                camera.position.lerp(camTargetPos, 0.05);
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        init();
+
+    </script>
 </body>
 </html>
-
-
-
-
